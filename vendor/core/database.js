@@ -56,7 +56,16 @@ const Config = sequelize.define('Config', {
     start : {
         type: Sequelize.BOOLEAN,
         allowNull:false
+    },
+    position: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+    },
+    extracents: {
+        type: Sequelize.FLOAT,
+        allowNull: false
     }
+
 }, {
     timestamps: false
 })
@@ -129,6 +138,8 @@ init = function() {
                             urlendpoint: 'https://api-public.sandbox.gdax.com',
                             start: false,
                             side: 'sell',
+                            position: 1,
+                            extracents: 0.12,
                             type: 'taker'
                         })
                     }

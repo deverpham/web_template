@@ -124,6 +124,40 @@
         }) %>
 
         <%- input({
+            label: 'Order position',
+            id: 'position',
+            type: 'text',
+            value: config.position,
+            attr: [
+                {
+                    key: 'disabled',
+                    value: true
+                },
+                {
+                    key: 'ng-disabled',
+                    value: 'isLock'
+                }
+            ]
+        }) %>
+
+        <%- input({
+            label: 'Extra Cents Per Order Position #1',
+            id: 'extracents',
+            type: 'text',
+            value: config.extracents,
+            attr: [
+                {
+                    key: 'disabled',
+                    value: true
+                },
+                {
+                    key: 'ng-disabled',
+                    value: 'isLock'
+                }
+            ]
+        }) %>
+
+        <%- input({
             label: 'Market',
             id: 'market',
             type: 'text',

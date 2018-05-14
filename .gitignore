@@ -1,5 +1,6 @@
 core/assets
 src/superTheme/public
+src/superTheme/dist
 node_modules
 yarn-error.log
 apikey

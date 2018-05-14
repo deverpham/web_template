@@ -1,6 +1,4 @@
 const Gdax = require('gdax');
-const CONFIG = require('../config.json');
-const certain_size = CONFIG.certain_value.gdax;
 const CryptoJS = require('crypto-js');
 const request = require('request');
 const event = require('events');
@@ -208,8 +206,5 @@ const params = {
     type:'market', // USD
     product_id: 'ETH-USD',
   };
-
-  //gdax.getOrders();
-//gdax.placeOrder(35)
 
 module.exports = gdax;
