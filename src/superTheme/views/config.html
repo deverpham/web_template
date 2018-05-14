@@ -1,0 +1,234 @@
+<div class=' m-auto w-50' ng-app = 'app' ng-controller='app'>
+    <h1 class='text-center mb-5'>CONFIG BOT</h1>
+    <div class='mb-2'>
+            <%- modal ({
+                btnText: 'UnLock',
+                btnType: 'danger',
+                id: 'unlockmodal',
+                title: ' Type Your Password',
+                content : `
+                    <form>
+                        ${input({
+                            id: 'password',
+                            label: "Password",
+                            type: 'password',
+                            attr: [
+                                {
+                                    key: 'ng-model',
+                                    value: 'password'
+                                }
+                            ]
+                        })}
+                        <button id ='unlockBtn' class='btn btn-primary' type='button'  ng-click = 'checkPassword()'> Un Lock</button>
+                    </form>
+                `
+            }) %>
+    </div>
+    <form action='' method='post'>
+        <%- input({
+            label: 'Url API End Point',
+            id: 'urlendpoint',
+            type: 'text',
+            value: config.urlendpoint,
+            attr: [
+                {
+                    key: 'disabled',
+                    value: true
+                },
+                {
+                    key: 'ng-disabled',
+                    value: 'isLock'
+                }
+            ]
+        }) %>        
+
+        
+        <%- input({
+            label: 'Key',
+            id: 'key',
+            type: 'password',
+            value: config.key,
+            attr: [
+                {
+                    key: 'disabled',
+                    value: true
+                },
+                {
+                    key: 'ng-disabled',
+                    value: 'isLock'
+                },
+                {
+                    key: 'showpassword',
+                    value: 'isLock'
+                }
+            ]
+        }) %>
+
+        <%- input({
+            label: 'Secret',
+            id: 'secret',
+            type: 'password',
+            value: config.secret,
+            attr: [
+                {
+                    key: 'disabled',
+                    value: true
+                },
+                {
+                    key: 'ng-disabled',
+                    value: 'isLock'
+                },
+                {
+                    key: 'showpassword',
+                    value: 'isLock'
+                }
+            ]
+        }) %>
+
+        <%- input({
+            label: 'Passphrase',
+            id: 'passphrase',
+            type: 'password',
+            value: config.passphrase,
+            attr: [
+                {
+                    key: 'disabled',
+                    value: true
+                },
+                {
+                    key: 'ng-disabled',
+                    value: 'isLock'
+                },
+                {
+                    key: 'showpassword',
+                    value: 'isLock'
+                }    
+            ]    
+        }) %>
+
+        <%- input({
+            label: 'Time',
+            id: 'time',
+            type: 'text',
+            value: config.time,
+            attr: [
+                {
+                    key: 'disabled',
+                    value: true
+                },
+                {
+                    key: 'ng-disabled',
+                    value: 'isLock'
+                }
+            ]
+        }) %>
+
+        <%- input({
+            label: 'Market',
+            id: 'market',
+            type: 'text',
+            value: config.market,
+            attr: [
+                {
+                    key: 'disabled',
+                    value: true
+                },
+                {
+                    key: 'ng-disabled',
+                    value: 'isLock'
+                }
+            ]
+        }) %>
+
+        <%- inputTypeGroup({
+            label: "Choose Side",
+            name: 'side',
+            inputs: [
+                {
+                    type: 'radio',
+                    value: 'sell',
+                    selected: ( function()  { 
+                        if('sell' == config.side) return true;
+                        else return false;
+                    }()),
+                    attr: [
+                    {
+                        key: 'disabled',
+                        value: true
+                    },
+                    {
+                        key: 'ng-disabled',
+                        value: 'isLock'
+                    }
+                ]
+                },
+                {
+                    type: 'radio',
+                    value: 'buy',
+                    selected: ( function()  { 
+                        if('buy' == config.side) return true;
+                        else return false;
+                    }()),
+                    attr: [
+                    {
+                        key: 'disabled',
+                        value: true
+                    },
+                    {
+                        key: 'ng-disabled',
+                        value: 'isLock'
+                    }
+                ]
+                },
+                
+            ]
+        }) %>
+
+        <%- inputTypeGroup({
+            label: "Choose Type",
+            name: 'type',
+            inputs: [
+                {
+                    type: 'radio',
+                    value: 'taker',
+                    selected: ( function()  { 
+                        if('taker' == config.type) return true;
+                        else return false;
+                    }()),
+                    attr: [
+                        {
+                            key: 'disabled',
+                            value: true
+                        },
+                        {
+                            key: 'ng-disabled',
+                            value: 'isLock'
+                        }
+                    ]
+                },
+                {
+                    type: 'radio',
+                    value: 'maker',
+                    selected: ( function()  { 
+                        if('maker' == config.type) return true;
+                        else return false;
+                    }()),
+                    attr: [
+                            {
+                                key: 'disabled',
+                                value: true
+                            },
+                            {
+                                key: 'ng-disabled',
+                                value: 'isLock'
+                            }
+                      ]
+                }
+            ]
+        }) %>
+        
+        <button class='btn btn-submit w-25 btn-primary' type='submit' disabled = true ng-disabled ='isLock'>Submit</button>
+        <button class='btn  w-20 btn-success' id='testconnect' type='button'>Test Connect</button>
+
+    </form>
+</div>

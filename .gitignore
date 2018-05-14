@@ -1,0 +1,6 @@
+core/assets
+src/superTheme/public
+node_modules
+yarn-error.log
+apikey
+nodemon.json

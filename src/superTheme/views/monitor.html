@@ -1,0 +1,14 @@
+<div class='container' ng-app ='app' ng-controller='app' >
+
+        <div class="alert alert-success statusView" ng-style="{opacity: displayStatus? 100:0}">
+                <strong>Success!</strong> 
+                <span class='status'> {{status}}</span>
+        </div>
+    <% if (config.start)  {%>
+        <button class='btn btn-danger' id='control' data='stop' ng-click='control()'>STOP</button>
+    <% } else {  %>
+        <button class='btn btn-success' id='control' data='start'  ng-click='control()'>START</button>
+    <% } %>
+
+    <%- include('./template/sheet') %>
+</div>

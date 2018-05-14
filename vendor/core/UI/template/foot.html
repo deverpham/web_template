@@ -1,0 +1,16 @@
+<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+<script src="<%= baseUrl %>/core/main.bundle.js"></script>
+<% if (helpers.js) {%>
+<script src="<%= baseUrl %>/theme/helper.bundle.js"></script>
+<% } %>
+<% if(js) {%>
+    <script src='<%=baseUrl %>/theme/<%=name %>.js'></script>
+<% } %>
+<script>
+    WebFont.load({
+    google: {"families":["Poppins:300,400,500,600,700","Roboto:300,400,500,600,700","Quicksand:300,400,500,600,700"]},
+    active: function() {
+        sessionStorage.fonts = true;
+    }
+  });
+</script>
