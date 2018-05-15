@@ -24,23 +24,7 @@
                 `
             }) %>
     </div>
-    <form action='' method='post'>
-        <%- input({
-            label: 'Url API End Point',
-            id: 'urlendpoint',
-            type: 'text',
-            value: config.urlendpoint,
-            attr: [
-                {
-                    key: 'disabled',
-                    value: true
-                },
-                {
-                    key: 'ng-disabled',
-                    value: 'isLock'
-                }
-            ]
-        }) %>        
+    <form action='' method='post'>      
 
         
         <%- input({
@@ -83,27 +67,6 @@
                     value: 'isLock'
                 }
             ]
-        }) %>
-
-        <%- input({
-            label: 'Passphrase',
-            id: 'passphrase',
-            type: 'password',
-            value: config.passphrase,
-            attr: [
-                {
-                    key: 'disabled',
-                    value: true
-                },
-                {
-                    key: 'ng-disabled',
-                    value: 'isLock'
-                },
-                {
-                    key: 'showpassword',
-                    value: 'isLock'
-                }    
-            ]    
         }) %>
 
         <%- input({

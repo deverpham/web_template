@@ -29,10 +29,6 @@ const Config = sequelize.define('Config', {
         allowNull: false,
         unique: true
     },
-    passphrase: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },
     time: {
         type: Sequelize.INTEGER,
         allowNull: false
@@ -46,10 +42,6 @@ const Config = sequelize.define('Config', {
         allowNull: false
     },
     type: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },
-    urlendpoint: {
         type: Sequelize.STRING,
         allowNull: false
     },
@@ -130,12 +122,10 @@ init = function() {
                 Config.count().then(len => {
                     if(len <=0 ) {
                         Config.create({
-                            key: '66dc8bcddec8e3d7fec94291d9d42711',
-                            secret: 'tN8qQC6oZg3AcTv6Qv2tThUD71UTgZtShGTxRgNXZbRubg/x4hcpte6iriRgbbGUIvCRXWJhgkSHMKe42b+12g==',
-                            passphrase: 'c7k9d7ao98p',
+                            key: 'ca5f077b14d54602854b1a7d45031076 ',
+                            secret: '3ce0446c463c4520b57509aa491f0fbc',
                             time: 1,
                             market: 'ETH-USD',
-                            urlendpoint: 'https://api-public.sandbox.gdax.com',
                             start: false,
                             side: 'sell',
                             position: 1,

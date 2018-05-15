@@ -1,7 +1,8 @@
  const Gdax = require('../service/gdax');
  const runner = require('../service/runner');
  const apiController = require('../controller/api.controller');
-
+ const MarketApi = require('./api/market.router');
+ APP.use('/api/market', MarketApi);
 APP.post('/api/control', Guard, async (req, res) => {
     await model.Config.update({
         start: req.body.start == 'start'
@@ -71,3 +72,4 @@ APP.get('/api/testconnect', Guard, async(req, res) => {
         })
     }
 })
+APP.get('/api/GetMarket')

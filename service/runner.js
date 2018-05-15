@@ -43,7 +43,7 @@ class Runner {
                 if(funds > 0) {
                     response = {};
                     try {
-                        var response = await Gdax.placeOrder(funds, config.market, config.side, config.type);
+                        var response = await Gdax.placeOrder(funds, config.market, config.side, config.type, config.extracents);
                     } catch(err) {
                         console.log(err.toString())
                     }

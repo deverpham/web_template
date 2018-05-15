@@ -35,7 +35,7 @@ gulp.task('watch', function() {
 })
 gulp.task('start server', run('nodemon app.js --config nodemon.json'))
 gulp.task('start_gulp_theme', run('gulp --gulpfile src/superTheme/gulpfile.js'))
-gulp.task('default', ['buildjs', 'buildcss', 'watch', 'start server'])
+gulp.task('default', ['buildjs', 'buildcss', 'watch'])
 gulp.task('dev', ['default', 'start_gulp_theme'])
 gulp.task('memory', run('node --trace_gc app.js'))
 gulp.task('build:prod', ['buildjs', 'buildcssprod'])

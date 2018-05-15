@@ -1,6 +1,5 @@
 const app = require('./vendor/app.module');
-
-
+const WhenStartApp = require('./middleware/whenstartapp');
 app.startServer(async () => {
-    console.log('server started')
+    WhenStartApp.init();
 });

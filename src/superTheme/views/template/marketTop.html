@@ -1,0 +1,80 @@
+<div class='table-responsive mt-2'>
+        <h3 >BTC Top Volume Markets</h3>
+        <table class='table mt-2' style='max-height: 700px'>
+            <thead>
+                <tr>
+                    <th>
+                        #
+                    </th>
+                    <th>
+                        Market Name
+                    </th>
+                    <th>
+                        Ask Price
+                    </th>
+                    <th>
+                        Bid Price
+                    </th>
+                    <th>
+                        Last Price
+                    </th>
+                    <th>
+                        Low 24h
+                    </th>
+                    <th>
+                        High 24h
+                    </th>
+                    <th>
+                        Buy
+                    </th>
+                    <th>
+                        Sell
+                    </th>
+                    <th>
+                        Yesterday
+                    </th>
+                    <th>
+                        Đánh Giá
+                    </th>
+                </tr>
+            </thead>
+            <tbody> 
+                <tr ng-repeat = "item in data ">
+                    <td>
+                        {{$index+1}}
+                    </td>
+                    <td>
+                        {{item.MarketName}}
+                    </td>
+                    <td>
+                        {{item.Ask}}
+                    </td>
+                    <td>
+                        {{item.Bid}}
+                    </td>
+                    <td>
+                        {{item.Last}}
+                    </td>
+                    <td>
+                        {{item.Low}}
+                    </td>
+                    <td>
+                        {{item.High}}
+                    </td>
+                    <td>
+                        {{item.OpenBuyOrders}}
+                    </td>
+                    <td>
+                        {{item.OpenSellOrders}}
+                    </td>
+                    <td>
+                        {{item.PrevDay}}
+                    </td>
+                    <td>
+                        {{item.NhanXet}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    

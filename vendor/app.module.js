@@ -9,7 +9,7 @@ global.APP = app;
 // Load Plugin
 app.startServer = async function(callback) {
     await core.start();
-    app.use('*', plugins.start)
+    app.use('*', plugins.load)
     await routes.start()
     app.use('*', async(req, res) => {
         res.send('404')

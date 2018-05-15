@@ -21,32 +21,58 @@ class GdaxM  {
     async checkPriceChange() {
         var config = await this.getConfig();
         var nowPrice = await this.get();
-        if(config.side == 'buy') {
-            if(this.lastBidAsk.bid != nowPrice.bid) {
-                console.log('changed price bid',nowPrice.bid, this.lastBidAsk.bid)
-                return true;
+        if(config.position<=1) {
+            if(config.side == 'buy') {
+                if(this.lastBidAsk.bid != nowPrice.bid) {
+                    console.log('changed price bid',nowPrice.bid, this.lastBidAsk.bid)
+                    return true;
+                } else {
+                    console.log('same price bid', nowPrice.bid, this.lastBidAsk.bid)
+                    return false;
+                }
             } else {
-                console.log('same price bid', nowPrice.bid, this.lastBidAsk.bid)
-                return false;
+                if(Number(this.lastBidAsk.ask) != Number(nowPrice.ask)) {
+                    console.log('changed price ask', nowPrice.ask, this.lastBidAsk.ask)
+                    return true;
+                } else {
+                    console.log('same price ask', nowPrice.ask, this.lastBidAsk.ask)
+                    return false;
+                }
             }
         } else {
-            if(Number(this.lastBidAsk.ask) != Number(nowPrice.ask)) {
-                console.log('changed price ask', nowPrice.ask, this.lastBidAsk.ask)
-                return true;
+            if(config.side == 'buy') {
+                if(this.lastBidAsk.bid >= nowPrice.bid && this.lastBidAsk.bid > 0) {
+                    console.log('still have a great buy price', nowPrice.bid, this.lastBidAsk.bid)
+                    return false;
+                } else {
+                    console.log('buy price is high now', nowPrice.bid, this.lastBidAsk.bid)
+                    return true;
+                }
             } else {
-                console.log('same price ask', nowPrice.ask, this.lastBidAsk.ask)
-                return false;
+                if(this.lastBidAsk.ask <= nowPrice.ask && this.lastBidAsk.ask > 0) {
+                    console.log('still have good sell price. higher', nowPrice.ask, this.lastBidAsk.ask)
+                    return false;
+                } else {
+                    console.log('sell price is low now', nowPrice.ask, this.lastBidAsk.ask)
+                    return true;
+                }
             }
         }
     }
     start() {
-        setInterval(() => {
-            this.listen()   
+        setInterval(async () => {
+            const config = await this.getConfig();
+            if(config.position <=1 ) {
+                this.listen()
+            } else {
+                this.listen50()
+            }
+               
         }, 350)
-        this.eventEmitter.on('ping', data => {
-    
+        this.eventEmitter.on('ping', async data => {
+            var config  = await this.getConfig();
             //console.log(data)
-            var bidsData = data.bids[0]
+            var bidsData = data.bids[config.position-1]
             if(bidsData) {
                 this.bid = bidsData[0]
             } else {
@@ -54,7 +80,7 @@ class GdaxM  {
             }
             
             
-            var asksData = data.asks[0]
+            var asksData = data.asks[config.position-1]
             if(asksData) {
                 this.ask = asksData[0]
             } else {
@@ -66,6 +92,19 @@ class GdaxM  {
         try {
             var config = await this.getConfig();
             var response = await axios.get(`${config.urlendpoint}/products/${config.market}/book?level=1`);
+                if(response.status) {
+                    var data = response.data;
+                    this.eventEmitter.emit('ping', data)
+                }
+        } catch(err) 
+        {
+        }
+    }
+
+    async listen50() {
+        try {
+            var config = await this.getConfig();
+            var response = await axios.get(`${config.urlendpoint}/products/${config.market}/book?level=2`);
                 if(response.status) {
                     var data = response.data;
                     this.eventEmitter.emit('ping', data)
@@ -118,13 +157,13 @@ class GdaxM  {
             resolve(response)
         })
     }
-    async placeOrder(funds, market , side, type) {
+    async placeOrder(funds, market , side, type, extracents) {
         var auth = await this.getAuth();
         var response  = null;
         if(type == 'taker') {
             response =  await this.placeMarketOrder(auth, funds, market, side)
         } else {
-            response = await this.placeLimitOrder(auth, funds, market, side)
+            response = await this.placeLimitOrder(auth, funds, market, side, extracents)
         }
         return response;
     }
@@ -159,13 +198,16 @@ class GdaxM  {
         return response;
     }
 
-    async placeLimitOrder(auth, funds ,market, side) {
+    async placeLimitOrder(auth, funds ,market, side, extracents) {
         var params = {}
         if(side =='sell') {
             var nowPrice = this.get()
-            this.lastBidAsk= nowPrice
+            this.lastBidAsk= {
+                ask: Number(nowPrice.ask) - extracents,
+                bid: nowPrice.bid
+            }
             console.log('init new price', nowPrice)
-            var sellPrice = nowPrice.ask
+            var sellPrice = Number(nowPrice.ask) - extracents
             
             if (sellPrice > 0) {
                 params = {
@@ -181,8 +223,11 @@ class GdaxM  {
             } else return {}
         } else {
             var nowPrice = this.get()
-            this.lastBidAsk = nowPrice
-            var buyPrice = nowPrice.bid
+            this.lastBidAsk = {
+                bid: Number(nowPrice) + extracents,
+                ask: nowPrice.ask
+            }
+            var buyPrice = Number(nowPrice.bid) + extracents
             
             if(buyPrice > 0) {
                 params = {

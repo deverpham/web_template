@@ -5,7 +5,7 @@ module.exports = (function(req, res, next) {
 
     pluginFolder = path.join(__dirname, './plugins/*/');
     return {
-        start : function(req, res, next) {
+        load : function(req, res, next) {
 
             var plugins = glob.sync(pluginFolder)
             let listPluginWillRun = []
@@ -16,9 +16,9 @@ module.exports = (function(req, res, next) {
                     console.warn('\x1b[33m%s\x1b[0m','plugin: ' + path.basename(plugin).toUpperCase() + `: missing index.js file`)
                 } else {
                     let pluginModule = require(indexFilePath);
-                    if('start' in pluginModule) {
-                        let masks = pluginModule.start
-                        pluginModule.start = function(req,res) {
+                    if('init' in pluginModule) {
+                        let masks = pluginModule.init
+                        pluginModule.init = function(req,res) {
                             return new Promise((resolve) => {
                                 masks.done = function() {
                                     resolve()
@@ -38,7 +38,7 @@ module.exports = (function(req, res, next) {
                 }
             })
             Promise.all(listPluginWillRun.map(plugin => {
-                return plugin.start(req, res)
+                return plugin.init(req, res)
             })).then(() => {
                 next();
             })
