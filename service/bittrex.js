@@ -15,7 +15,7 @@ class BittrexMiddleware {
     }
     async getTopMarket(marketCurrency) {
         var auth = await this.getAuth();
-        var markets = await getTopHighVolumeMarket(auth, marketCurrency,10);
+        var markets = await getTopHighVolumeMarket(auth, marketCurrency,20);
         return markets;
     }
 }

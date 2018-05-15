@@ -113,10 +113,69 @@ const User = sequelize.define('User', {
         }
     }
 })
+const Market = sequelize.define('Market', {
+    id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    MarketName: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    OpenBuyOrders: {
+        type: Sequelize.BIGINT,
+        allowNull: false
+    },
+    OpenSellOrders: {
+        type: Sequelize.BIGINT,
+        allowNull: false
+    },
+    PrevDay: {
+        type: Sequelize.FLOAT,
+        allowNull:false
+    },
+    TimeStamp: {
+        type: Sequelize.STRING,
+        allowNull:false,
+    },
+    BaseVolume:  {
+        type: Sequelize.FLOAT,
+        allowNull:false
+    },
+    Ask: {
+        type: Sequelize.FLOAT,
+        allowNull:false
+    },
+    Bid: {
+        type: Sequelize.FLOAT,
+        allowNull:false
+    },
+    Last: {
+        type: Sequelize.FLOAT,
+        allowNull:false
+    },
+    Low: {
+        type: Sequelize.FLOAT,
+        allowNull:false
+    },
+    High: {
+        type: Sequelize.FLOAT,
+        allowNull:false
+    },
+    PrevDay: {
+        type: Sequelize.FLOAT,
+        allowNull:false
+    },
+    Created: {
+        type: Sequelize.STRING,
+        allowNull:false
+    }
+})
 init = function() {
             return new Promise(async resolve => {
             exportDatabase()
-            Promise.all([Config, History, User].map(table => table.sync({
+            Promise.all([Config, History, User, Market].map(table => table.sync({
                 force: false
             }))).then(() => {
                 Config.count().then(len => {
@@ -148,7 +207,7 @@ init = function() {
     })
 }
 exportDatabase = function() {
-    global.model = {Config, History, User}
+    global.model = {Config, History, User, Market}
     logger.success('add Database Variable to Global')
 }
 module.exports = {init, database: sequelize}
