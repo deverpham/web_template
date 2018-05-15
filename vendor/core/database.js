@@ -170,6 +170,14 @@ const Market = sequelize.define('Market', {
     Created: {
         type: Sequelize.STRING,
         allowNull:false
+    },
+    percent: {
+        type: Sequelize.FLOAT,
+        allowNull: false
+    },
+    spread: {
+        type: Sequelize.STRING,
+        allowNull: false
     }
 })
 init = function() {

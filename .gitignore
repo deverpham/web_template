@@ -1,5 +1,4 @@
-core/assets
-src/superTheme/public
+core/assetss
 src/superTheme/dist
 node_modules
 yarn-error.log
