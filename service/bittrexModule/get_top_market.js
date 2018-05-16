@@ -11,7 +11,12 @@ function getTopMarket(bittrex) {
     })
 }
 async function getTopHighVolumeMarket(bittrex, market, numberRecords) {
+    try {
     var markets = await getTopMarket(bittrex);
+    } catch(err) {
+        console.log('err in getTopHighVolumeMarket')
+        throw err
+    }
     var dataSort = arraySort(markets, {
         where: {
             MarketName : {
