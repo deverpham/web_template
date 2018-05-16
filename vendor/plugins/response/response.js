@@ -12,9 +12,9 @@ module.exports = (function() {
                 })
             }
 
-            req.error = function(message) {
+            res.error = function(message) {
                 res.status(ERROR_STATUS_CODE).json({
-                    status: ERROR_STATUS_CODE,
+                    status: ERROR_STATUS,
                     message
                 })
             }

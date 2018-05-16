@@ -22,24 +22,13 @@ APP.post('/api/control', Guard, async (req, res) => {
     })
 })
 
-APP.get('/api/balance', Guard, async(req, res) => {
-    try {
-        var currency = await apiController.getMarket();
-        var funds = await apiController.getBalance();
-        res.json({
-            status: 'success',
-            message: {
-                funds,
-                currency
-            }
-        })
-    } catch(err) {
-        res.status(400).json({
-            status: 'error',
-            message: err.toString()
-        })
-    }
+APP.get('/api/balance', Guard, (req, res) => {
+    apiController.getBalance().then(data => {
+        res.success(data)
+    }).catch(err => res.error(err))
+    
 })
+
 APP.get('/api/history', Guard, async(req, res) => {
     var history = await model.History.findAll({
         raw: true,

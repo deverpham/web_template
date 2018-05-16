@@ -1,0 +1,112 @@
+<div class='row'>
+    <h3>Order Book</h3>
+</div>
+
+<div class='row'>
+
+    <div class='col-6'>
+        <div class='table-responsive mt-2'>
+            <h3 >Bid</h3>
+            <table class='table mt-2' style='max-height: 700px'>
+                <thead>
+                    <tr>
+                        <th>
+                            #
+                        </th>
+                        <th>
+                            time
+                        </th>
+                        <th>
+                            market
+                        </th>
+                        <th>
+                            size
+                        </th>
+                        <th>
+                            side
+                        </th>
+                        <th>
+                            Type
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat = "item in history | orderBy: '-time'">
+                        <td>
+                            {{item.id}}
+                        </td>
+                        <td>
+                            {{item.time}}
+                        </td>
+                        <td>
+                            {{item.market}}
+                        </td>
+                        <td>
+                            {{item.size}}
+                        </td>
+                        <td>
+                            {{item.side}}
+                        </td>
+                        <td>
+                            {{item.type}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+    </div>
+    
+    <div class='col-6'>
+        <div class='table-responsive mt-2'>
+            <h3 >Ask</h3>
+            <table class='table mt-2' style='max-height: 700px'>
+                <thead>
+                    <tr>
+                        <th>
+                            #
+                        </th>
+                        <th>
+                            time
+                        </th>
+                        <th>
+                            market
+                        </th>
+                        <th>
+                            size
+                        </th>
+                        <th>
+                            side
+                        </th>
+                        <th>
+                            Type
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat = "item in history | orderBy: '-time'">
+                        <td>
+                            {{item.id}}
+                        </td>
+                        <td>
+                            {{item.time}}
+                        </td>
+                        <td>
+                            {{item.market}}
+                        </td>
+                        <td>
+                            {{item.size}}
+                        </td>
+                        <td>
+                            {{item.side}}
+                        </td>
+                        <td>
+                            {{item.type}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+    </div>
+</div>

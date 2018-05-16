@@ -1,10 +1,26 @@
+
+const ProtectMarketModule = require('./protect_market');
+
+async function getMarketHistory(MarketName) {
+    var results = await model.Market.findAll({
+        where: {
+            MarketName
+        },
+        raw: true,
+        limit: 50,
+        order: [
+          ['TimeStamp', 'DESC']
+        ]
+    });
+    return results;
+}
 class Market {
     constructor(market) {
         this.market = market;
     }
     getTradePercent() {
-        var percent = (this.market.OpenBuyOrders*2 - this.market.OpenSellOrders) / this.market.OpenBuyOrders;
-        return percent.toFixed(2);
+        var percent = (this.market.OpenSellOrders - this.market.OpenBuyOrders*3) / this.market.OpenBuyOrders;
+        return percent.toFixed(4);
     }
     getSpread() {
         var spread = 0
@@ -15,7 +31,7 @@ class Market {
         } else if(now == last) {
             spread = ((Math.abs(now-last))/last *100).toFixed(2)
         } else {
-            spread = '+' + ((Math.abs(now-last))/last *100).toFixed(2)
+            spread = '+' + ((Math.abs(now-last))/last *100).toFixed()
         }
         return spread;
     }
@@ -29,25 +45,61 @@ class Market {
     }
 }
 class BotAnalytic {
-    getListMarketCanTrade(markets) {
+
+    saveLog(markets) {
         markets.map(async market => {
             var marketObject = new Market(market);
             await marketObject.save();
-            var tradePercent = marketObject.getTradePercent();
-            if(tradePercent > 0) {
-                //GIA SE GIAM
-                //console.log(market.MarketName, tradePercent)
+        })
+    }
+    
+    getAImarket(markets) {
+      var willHigh = []
+      var willLow = []
+      markets.map( market => {
+          var marketObject  = new Market(market);
+          var tradePercent = marketObject.getTradePercent();
+          market.percents = tradePercent
+          if(tradePercent >0) {
+            if(tradePercent <= 4) {
+              willHigh.push(market)
             } else {
-                if(Math.abs(tradePercent) <= 0.7) {
-                    // HEN XUI
-                    //console.log(market.MarketName, tradePercent)
-                } else {
-                    // GIA SE TANG
-                    console.log(market.MarketName, tradePercent)
-                }
-                
+              willLow.push(market)
             }
-            
+          } else {
+            willLow.push(market)
+          }
+      })
+
+      return {
+        willLow, willHigh
+      }
+    }
+
+    onGuardMarket(market) {
+        console.log('cancel order', market)
+    }
+
+    GuardMarket(MarketName) {
+        return new Promise(async resolve => {
+
+            var history = await  getMarketHistory(MarketName)
+            if(ProtectMarketModule.checkPersCent(history[0].percent)) {
+                console.log('market ok', MarketName)
+                resolve()
+            } else {
+                this.onGuardMarket(MarketName)
+                resolve()
+            }
+        })
+    }
+
+    ProtectMarket(markets) {
+        return new Promise(resolve => {
+            Promise.all(markets.map(async MarketName => this.GuardMarket(MarketName)))
+                    .then(() => {
+                        resolve();
+                    })
         })
     }
 }

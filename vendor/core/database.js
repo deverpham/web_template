@@ -189,8 +189,8 @@ init = function() {
                 Config.count().then(len => {
                     if(len <=0 ) {
                         Config.create({
-                            key: 'ca5f077b14d54602854b1a7d45031076 ',
-                            secret: '3ce0446c463c4520b57509aa491f0fbc',
+                            key: '53e7d0d5c84f4e83a368e0b59dc37735',
+                            secret: '30f850dc858049e89e5bc17989161f57',
                             time: 1,
                             market: 'ETH-USD',
                             start: false,

@@ -1,0 +1,66 @@
+<div class='table-responsive mt-2' ng-controller ='history'>
+        <h3 >History <%= MarketName %></h3>
+        <table class='table mt-2' style='max-height: 700px'>
+            <thead>
+                <tr>
+                    <th>
+                        #
+                    </th>
+                    <th>
+                        Market Name
+                    </th>
+                    <th>
+                        Last Price
+                    </th>
+                    <th>
+                        Buy
+                    </th>
+                    <th>
+                        Sell
+                    </th>
+                    <th>
+                        Yesterday
+                    </th>
+                    <th>
+                        Đánh Giá
+                    </th>
+                    <th>
+                        Time
+                    </th>
+                    <th>Percents</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat = "item in history| orderBy: TimeStamp ">
+                    <td>
+                        {{item.id}}
+                    </td>
+                    <td>
+                        {{item.MarketName}}
+                    </td>
+                    <td>
+                        {{item.Last}}
+                    </td>
+                    <td>
+                        {{item.OpenBuyOrders}}
+                    </td>
+                    <td>
+                        {{item.OpenSellOrders}}
+                    </td>
+                    <td>
+                        {{item.PrevDay}}
+                    </td>
+                    <td>
+                        {{item.spread }}
+                    </td>
+                    <td>
+                      {{item.TimeStamp |date: ' HH:mm:ss dd/MM/yyyy'}}
+                    </td>
+                    <td>{{item.percent}}</td>
+                    <td>
+                        <a href="/markets/{{item.MarketName}}" class='btn btn-success'> View</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
