@@ -1,6 +1,6 @@
 var session = require('express-session');
 var SequelizeStore = require('connect-session-sequelize')(session.Store);
-var database = require('./database.js').database;
+var database = require('./database/database.config').sequelize
 var sessionStore = new SequelizeStore({
     db: database
 })

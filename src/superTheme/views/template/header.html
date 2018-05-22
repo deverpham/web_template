@@ -13,15 +13,4 @@
     <%- head %>
 </head>
 <body>
-    <% if(!('user'  in locals))  {%>
-    <%- menuSimpleThree({
-        url: url
-    }) %>
-
-    <%  } else {  %>
-
-    <%- menuSimpleThree({
-        url: url,
-        user: user
-    }) %>
-    <% } %>
+    <%- menuSimple() %>

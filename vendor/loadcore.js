@@ -4,7 +4,7 @@ const fs = require('fs');
 module.exports = (function() {
     ModulePath = path.join(__dirname, './core/*.js');
     return {
-        start : function() {
+        start : () => {
             console.log('starting loading module')
             return new Promise(resolve => { 
                 var routes = glob.sync(ModulePath)

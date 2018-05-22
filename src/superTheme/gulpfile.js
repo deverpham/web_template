@@ -2,18 +2,20 @@ const gulp = require('gulp');
 const concat = require('gulp-concat');
 const sass = require('gulp-sass');
 var browserify = require('gulp-browserify');
+const babelify = require('babelify');
 var uglifyjs = require('gulp-uglify-es').default;
 const path = require('path');
 source_cmd = path.join(__dirname, '');
 var pump = require('pump');
 cleanCSS = require('gulp-clean-css');
+const reactify = require('reactify')
 babel = require('gulp-babel');
 gulp.task('buildjs', function(cb) {
     
     pump([
         gulp.src('./public/js/*.js'),
         babel({
-            presets: ["babel-preset-es2015", "babel-preset-es2016", "babel-preset-es2017"].map(require.resolve)
+            presets: ["babel-preset-es2015", "babel-preset-stage-0", "babel-preset-react"].map(require.resolve)
         }),
         browserify({
             insertGlobals: false,
