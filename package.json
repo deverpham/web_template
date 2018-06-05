@@ -43,6 +43,7 @@
     "html-minifier": "^3.5.15",
     "joi": "^13.2.0",
     "loopback-filters": "^1.0.0",
+    "multer": "^1.3.0",
     "node-bittrex-api": "^0.8.3",
     "node-usage": "0.0.3",
     "pump": "^3.0.0",

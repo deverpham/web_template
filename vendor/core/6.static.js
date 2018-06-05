@@ -9,6 +9,7 @@ module.exports = (function() {
             } ,express.static(path.join(__dirname, './ui/dist')))
             APP.use('/theme',express.static(path.join(__dirname, '../../src/superTheme/dist')))
             APP.use('/theme/assets',express.static(path.join(__dirname, '../../src/superTheme/public/images')))
+            APP.use('/resources', express.static(path.join(__dirname, '../../resources')));
         }
     }
 }())

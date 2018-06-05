@@ -1,9 +1,9 @@
 const {sequelize, Sequelize} = require('../database.config');
-const Category = sequelize.define('categories', {
+const Libraries  = sequelize.define('libraries', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
     }
 })
-module.exports = Category;
+module.exports = Product;
