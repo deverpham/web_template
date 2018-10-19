@@ -1,4 +1,4 @@
-const app = require('./vendor/');
+const { app } = require('./vendor');
 app.startServer({
     port: 80,
     callback: async function () {
