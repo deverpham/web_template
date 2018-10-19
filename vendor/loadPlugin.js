@@ -2,28 +2,24 @@ const path = require('path');
 const glob = require('glob');
 const fs = require('fs');
 module.exports = (function () {
-
     const pluginFolder = path.join(__dirname, './plugins/*/');
     return {
         load: function (req, res, next) {
-            console.log('load')
             var plugins = glob.sync(pluginFolder)
-            let listPluginWillRun = []
-            let cachewillbeRemove = []
+            const listPluginWillRun = []
+            const cachewillbeRemove = []
             plugins.filter(async plugin => {
-                let indexFilePath = path.join(plugin, `./${path.basename(plugin)}.js`);
+                let indexFilePath = path.join(plugin, `./index.js`);
                 if (!fs.existsSync(indexFilePath)) {
-                    console.warn('\x1b[33m%s\x1b[0m', 'plugin: ' + path.basename(plugin).toUpperCase() + `: missing index.js file`)
+                    loggerAPI.warn('plugin: ' + path.basename(plugin).toUpperCase() + `: missing index.js file`)
                 } else {
                     let pluginModule = require(indexFilePath);
                     if ('init' in pluginModule) {
-                        let masks = pluginModule.init
+                        let mask = pluginModule.init
                         pluginModule.init = function (req, res) {
                             return new Promise((resolve) => {
-                                masks.done = function () {
-                                    resolve()
-                                }
-                                masks.apply(masks, arguments);
+                                mask.done = resolve
+                                mask.apply(mask, arguments);
                             })
                         }
                         listPluginWillRun.push(pluginModule)
@@ -31,16 +27,15 @@ module.exports = (function () {
                         cachewillbeRemove.map(link => {
                             delete require.cache[require.resolve(link)]
                         })
-                        //console.warn('\x1b[36m%s\x1b[0m','plugin: ' + path.basename(plugin).toUpperCase() + `: loaded`)
                     } else {
-                        logger.error('plugin: ' + path.basename(plugin).toUpperCase() + `: missing start function`)
+                        loggerAPI.error('plugin: ' + path.basename(plugin).toUpperCase() + `: missing init function`)
                     }
                 }
             })
             Promise.all(listPluginWillRun.map(plugin => {
                 return plugin.init(req, res)
             })).then(() => {
-                next();
+                next()
             })
         }
     }

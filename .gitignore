@@ -6,3 +6,4 @@ apikey
 nodemon.json
 *.zip
 *.db
+gulpfile.js
