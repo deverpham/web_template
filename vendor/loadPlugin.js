@@ -2,7 +2,7 @@ const path = require('path');
 const glob = require('glob');
 const fs = require('fs');
 module.exports = (function () {
-    const pluginFolder = path.join(__dirname, './plugins/*/');
+    const pluginFolder = path.join(__dirname, '../plugins/*/');
     return {
         load: function (req, res, next) {
             var plugins = glob.sync(pluginFolder)
