@@ -1,12 +1,12 @@
 
-const { hookAPI } = require('../../vendor')
 module.exports = (function () {
     return {
         init: function (req, res) {
-            hookAPI.add_action('RENDER', {
-                id: 'render_admin',
+            const hookAPI = res.locals.hookAPI;
+            hookAPI.add_action('RENDER_TITLE_ADMIN', {
+                id: 'render_admin_s',
                 callback: function () {
-                    res.renderStream('gg');
+                    res.write('gg')
                 }
             })
             res.locals.baseUrl = fullUrl = 'http' + '://' + req.get('host')

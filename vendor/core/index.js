@@ -1,11 +1,13 @@
 
 const { themeAPI } = require('../api')
 const { app } = require('../express');
-const { responseMiddleware } = require('./middlewares');
+const { responseMiddleware, hookAPI } = require('./middlewares');
+const plugins = require('./loadPlugin')
 const path = require('path');
 async function bootApp() {
     loadTheme();
     applyMiddleware();
+    loadPlugin();
     loadRoutes();
 }
 function loadTheme() {
@@ -14,7 +16,10 @@ function loadTheme() {
 function loadRoutes() {
     require('./routes')
 }
+function loadPlugin() {
+    app.use(plugins.load)
+}
 function applyMiddleware() {
-    app.use(responseMiddleware);
+    app.use(hookAPI, responseMiddleware);
 }
 module.exports = { bootApp }

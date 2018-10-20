@@ -1,6 +1,5 @@
 
 const { app } = require('./express')
-const plugins = require('./loadPlugin');
 const routes = require('./loadRouter')
 const API = require('./api/index');
 const core = require('./core')
@@ -9,9 +8,8 @@ const core = require('./core')
      * @param {object} option
  */
 app.startServer = async function (option) {
-    //API.bootApp();
     await core.bootApp();
-    app.use(plugins.load)
+
     //await routes.start();
     app.use('*', async (req, res) => {
         res.send('404')

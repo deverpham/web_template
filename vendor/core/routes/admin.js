@@ -1,7 +1,8 @@
 const { hookAPI, RouterAPI } = require('../../api')
 const route = new RouterAPI('admin');
-route.get('/', (req, res) => {
-    hookAPI.do_action('RENDER')
-    res.renderStream('<h1>Hello world</h1>');
-    res.end();
+route.get('/', async (req, res) => {
+    await res.renderStream('admin/template/header.html')
+    await res.renderStream('admin/home.html')
+    await res.renderStream('admin/template/footer.html')
+    res.end()
 })

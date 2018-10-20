@@ -1,9 +1,9 @@
 const path = require('path');
 const glob = require('glob');
 const fs = require('fs');
-const { loggerAPI } = require('./api')
+const { loggerAPI } = require('../api')
 module.exports = (function () {
-    const pluginFolder = path.join(__dirname, '../plugins/*/');
+    const pluginFolder = path.join(__dirname, '../../plugins/*/');
     return {
         load: function (req, res, next) {
             var plugins = glob.sync(pluginFolder)
