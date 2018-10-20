@@ -8,15 +8,21 @@ const API = require('./api/index');
      * @param {object} option
  */
 app.startServer = async function (option) {
-    API.load();
+    //API.load();
     //await core.start();
     app.use(plugins.load)
     await routes.start();
     app.use('*', async (req, res) => {
         res.send('404')
     })
+    setInterval(() => {
+        API.HookAPI.do_action('SERVER_START')
+    }, 3000)
     app.listen(option.port, () => {
         if ('callback' in option) option.callback();
     })
 }
-module.exports = { app };
+module.exports = {
+    app,
+    ...API
+};
