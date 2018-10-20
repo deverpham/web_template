@@ -9,16 +9,13 @@ const core = require('./core')
      * @param {object} option
  */
 app.startServer = async function (option) {
-    API.load();
-    await core.load();
+    //API.bootApp();
+    await core.bootApp();
     app.use(plugins.load)
     //await routes.start();
     app.use('*', async (req, res) => {
         res.send('404')
     })
-    setInterval(() => {
-        API.hookAPI.do_action('NOTIFY')
-    }, 3000)
     app.listen(option.port, () => {
         if ('callback' in option) option.callback();
     })
