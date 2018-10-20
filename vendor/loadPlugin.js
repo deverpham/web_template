@@ -6,7 +6,6 @@ module.exports = (function () {
     const pluginFolder = path.join(__dirname, '../plugins/*/');
     return {
         load: function (req, res, next) {
-            loggerAPI.debug('loader')
             var plugins = glob.sync(pluginFolder)
             const listPluginWillRun = []
             const cachewillbeRemove = []

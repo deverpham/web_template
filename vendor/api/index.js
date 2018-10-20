@@ -1,11 +1,16 @@
 const Logger = require('./logger');
 const { Monitor } = require('./monitor')
 const RouterAPI = require('./router')
-const HookAPI = require('./hooks')
+const hookAPI = require('./hooks')
+const viewAPI = require('./view')
 
+function load() {
+}
 module.exports = {
     MonitorAPI: Monitor,
     loggerAPI: new Logger(),
     RouterAPI,
-    HookAPI
+    hookAPI,
+    viewAPI,
+    load
 }
