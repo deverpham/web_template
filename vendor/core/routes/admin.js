@@ -1,5 +1,7 @@
-const { RouterAPI } = require('../../api')
+const { hookAPI, RouterAPI } = require('../../api')
 const route = new RouterAPI('admin');
 route.get('/', (req, res) => {
-    res.render('admin/home')
+    hookAPI.do_action('RENDER')
+    res.renderStream('<h1>Hello world</h1>');
+    res.end();
 })
