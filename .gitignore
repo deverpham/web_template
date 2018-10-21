@@ -8,3 +8,5 @@ nodemon.json
 *.db
 gulpfile.js
 src
+.nyc_output
+coverage

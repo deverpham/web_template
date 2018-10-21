@@ -4,7 +4,9 @@ const { app } = require('../express');
 const { responseMiddleware, hookAPI } = require('./middlewares');
 const plugins = require('./loadPlugin')
 const path = require('path');
+const { loadDatabase } = require('./database')
 async function bootApp() {
+    loadDatabase();
     loadTheme();
     applyMiddleware();
     loadPlugin();

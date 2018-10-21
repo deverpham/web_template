@@ -14,6 +14,9 @@ class ThemeAPI {
     changeTheme(dir) {
         app.set('views', dir)
     }
+    getThemeDir() {
+        return app.get('views')
+    }
     setTheme(dir) {
         this.controller.emit('change', dir)
     }
