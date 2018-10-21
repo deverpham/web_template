@@ -7,3 +7,4 @@ nodemon.json
 *.zip
 *.db
 gulpfile.js
+src
