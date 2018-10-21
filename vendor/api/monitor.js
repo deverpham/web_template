@@ -33,7 +33,6 @@ class Monitor {
 
     }
     async _listenHealth() {
-        console.log('gg')
         const info = await getUsageNow();
         this.previousHealth = info
     }

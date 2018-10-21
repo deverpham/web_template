@@ -47,6 +47,7 @@
     "performance-now": "^2.1.0",
     "pump": "^3.0.0",
     "random-id": "^0.0.2",
+    "randomstring": "^1.1.5",
     "sequelize": "^4.37.6",
     "sqlite3": "^4.0.0",
     "usage": "^0.7.1"

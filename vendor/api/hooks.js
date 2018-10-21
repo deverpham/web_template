@@ -1,48 +1,50 @@
 
 const { filterBags } = require('./helpers/asynchook')
 const filterModule = require('loopback-filters')
+const randomString = require('randomstring');
 class Hook {
     constructor() {
         this.hooks = {}
     }
+    /**
+     * @todo Refactor
+     * @todo remove default
+     * @param {string} hookName 
+     */
     do_action(hookName) {
+        const defualt = {}
         return new Promise(resolve => {
-
             if (hookName in this.hooks) {
-                const list = Object.keys(this.hooks[hookName])
-                Promise.all((list.map(action => {
-                    return new Promise(resolve => {
-                        console.log('new_line');
-                        this.hooks[hookName][action].callback()
-                        if (this.hooks[hookName][action].once) {
-                            console.log('zo zo')
-                            delete this.hooks[hookName][action]
-                            resolve()
-                        } else {
-                            console.log('false', 'asdasd')
-                            resolve()
-                        }
-                    })
-                }))).then(resolve)
+                const list = Object.keys(this.hooks[hookName]).map(hook => {
+                    return this.hooks[hookName][hook]
+                })
+                const orderedHooks = filterModule(list, {
+                    order: 'order DESC'
+                }).map(hook => hook.callback)
+                filterBags(defualt, ...orderedHooks).then(result => {
+                    resolve(result)
+                })
             } else {
                 resolve()
             }
         })
     }
-    add_action(hookName, action, once = false) {
+    add_action(hookName, action) {
+        action.id = action.id || 'ac' + randomString.generate({
+            length: 6,
+            capitalization: 'lowercase'
+        })
         if (hookName in this.hooks) {
             Object.assign(this.hooks[hookName], {
                 [action.id]: {
-                    callback: action.callback,
-                    once
+                    callback: action.callback
                 }
             });
         } else {
             this.hooks[hookName] = {};
             Object.assign(this.hooks[hookName], {
                 [action.id]: {
-                    callback: action.callback,
-                    once
+                    callback: action.callback
                 }
             });
         }
@@ -53,6 +55,7 @@ class HookFilter extends Hook {
     constructor() {
         super();
         this.filter_hooks = []
+        this.filter_index = 0;
     }
 
     do_filter(hookName, defualt = {}) {
@@ -64,7 +67,6 @@ class HookFilter extends Hook {
                 const orderedHooks = filterModule(list, {
                     order: 'order DESC'
                 }).map(hook => hook.callback)
-                console.log(orderedHooks)
                 filterBags(defualt, ...orderedHooks).then(result => {
                     resolve(result)
                 })
@@ -74,11 +76,15 @@ class HookFilter extends Hook {
         })
     }
     add_filter(hookName, action) {
+        action.id = action.id || 'fi' + randomString.generate({
+            length: 6,
+            capitalization: 'lowercase'
+        })
         if (hookName in this.filter_hooks) {
             Object.assign(this.filter_hooks[hookName], {
                 [action.id]: {
                     callback: action.callback,
-                    order: action.order
+                    order: action.order || ++this.filter_index
                 }
             });
         } else {
@@ -86,10 +92,10 @@ class HookFilter extends Hook {
             Object.assign(this.filter_hooks[hookName], {
                 [action.id]: {
                     callback: action.callback,
-                    order: action.order
+                    order: action.order || ++this.filter_index
                 }
             });
         }
     }
 }
-module.exports = { HookFilter }
+module.exports = HookFilter
