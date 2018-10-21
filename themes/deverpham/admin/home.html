@@ -1,5 +1,6 @@
 <body id='admin'>
     <h2>
-        <% await hookAPI.do_action('RENDER_TITLE_ADMIN') %>
+        <%=  await hookAPI.do_filter('RENDER_TITLE_ADMIN', 'Admin')
+         %>
     </h2>
 </body>

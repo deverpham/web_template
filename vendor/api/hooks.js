@@ -19,7 +19,7 @@ class Hook {
                     return this.hooks[hookName][hook]
                 })
                 const orderedHooks = filterModule(list, {
-                    order: 'order DESC'
+                    order: 'order ASC'
                 }).map(hook => hook.callback)
                 filterBags(defualt, ...orderedHooks).then(result => {
                     resolve(result)
@@ -65,13 +65,13 @@ class HookFilter extends Hook {
                     return this.filter_hooks[hookName][hook]
                 })
                 const orderedHooks = filterModule(list, {
-                    order: 'order DESC'
+                    order: 'order ASC'
                 }).map(hook => hook.callback)
                 filterBags(defualt, ...orderedHooks).then(result => {
                     resolve(result)
                 })
             } else {
-                resolve()
+                resolve(defualt)
             }
         })
     }

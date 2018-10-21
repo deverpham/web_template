@@ -7,9 +7,12 @@ const usage = require('usage');
  */
 function getUsageNow() {
     const pid = process.pid
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
         usage.lookup(pid, { keepHistory: true }, function (err, result) {
-            if (err) throw err;
+            if (err) {
+                console.log(err)
+                reject(err);
+            }
             var memory = Math.floor(result.memory / 1000000)
             var cpu = result.cpu;
             resolve({
@@ -24,17 +27,19 @@ function getUsageNow() {
  */
 class Monitor {
     constructor(healthCheck = false) {
-        this.start = now();
-        if (healthCheck) {
-            (async () => {
-                await this._listenHealth()
-            })()
-        }
+        this.healthCheck = healthCheck
+
 
     }
     async _listenHealth() {
         const info = await getUsageNow();
         this.previousHealth = info
+    }
+    async  start() {
+        if (this.healthCheck) {
+            this.start = now();
+            await this._listenHealth();
+        }
     }
     /**
      * Report Performance
