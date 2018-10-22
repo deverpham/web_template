@@ -10,3 +10,4 @@ gulpfile.js
 src
 .nyc_output
 coverage
+.vscode

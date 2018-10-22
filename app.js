@@ -1,4 +1,10 @@
-const { app, loggerAPI } = require('./vendor');
+it('test', function (done) {
+
+})
+const {
+    app,
+    loggerAPI
+} = require('./vendor');
 app.startServer({
     port: 80,
     callback: async function () {
