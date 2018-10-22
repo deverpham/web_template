@@ -1,4 +1,7 @@
-const { RouterAPI } = require('../../api')
+const {
+    RouterAPI,
+    ModelAPI
+} = require('../../api')
 const route = new RouterAPI('admin');
 /**
  * set middlewares
@@ -22,10 +25,17 @@ route.get('/', async (req, res) => {
 })
 
 route.get('/login', async function (req, res) {
+    res.setHeader('Content-type', 'text/html')
     const hookAPI = res.locals.hookAPI;
     hookAPI.add_filter('ADMIN_PAGE_TITLE', {
         callback: async function () {
             return 'Login'
+        }
+    })
+    hookAPI.add_filter('ADMIN_LOGIN_FORM', {
+        callback: async function () {
+            const User = new ModelAPI('UserModel');
+            return User.getForm('input', ['username', 'password', 'role'])
         }
     })
     await res.renderStream('admin/login.ejs')

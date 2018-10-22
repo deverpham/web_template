@@ -1,9 +1,13 @@
 const Logger = require('./logger');
-const { Monitor } = require('./monitor')
+const {
+    Monitor
+} = require('./monitor')
 const RouterAPI = require('./router')
 const HookAPI = require('./hooks')
 const viewAPI = require('./view')
 const themeAPI = require('./theme')
+const ModelAPI = require('./model')
+
 function bootApp() {
 
 }
@@ -14,5 +18,6 @@ module.exports = {
     HookAPI,
     viewAPI,
     themeAPI,
+    ModelAPI,
     bootApp
 }

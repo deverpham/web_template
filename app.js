@@ -1,13 +1,10 @@
-it('test', function (done) {
-
-})
 const {
     app,
     loggerAPI
 } = require('./vendor');
 app.startServer({
-    port: 80,
+    port: 8080,
     callback: async function () {
-        loggerAPI.debug('server running', 80)
+        loggerAPI.debug('server running', 8080)
     }
 });
