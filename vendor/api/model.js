@@ -1,6 +1,6 @@
 const {
-    UserModel
-} = require('../core/database');
+    DB
+} = require('../core/database/sequelize');
 const ejs = require('ejs')
 
 function getTypeDOM(type) {
@@ -12,6 +12,22 @@ function getTypeDOM(type) {
         default:
             {
                 return 'text'
+            }
+    }
+}
+/**
+ * 
+ * @param {string} fieldType 
+ */
+function isInputField(fieldType) {
+    switch (fieldType) {
+        case 'STRING':
+            {
+                return true
+            }
+        default:
+            {
+                return true;
             }
     }
 }
@@ -51,7 +67,7 @@ function getDomsHTML(fields) {
 }
 class ModelAPI {
     constructor(name) {
-        this.Model = eval(` (${name})`)
+        this.Model = eval(` (DB.models['${name}'])`)
     }
     /**
      * render a template with fields
@@ -72,5 +88,26 @@ class ModelAPI {
         })
 
     }
+    getFieldsName() {
+        return Object.keys(this.Model.rawAttributes);
+    }
+    getInputFields() {
+        const props = this.Model.rawAttributes;
+        const keys = this.getFieldsName();
+        const keyValids = keys.filter(key => {
+            if (['createdAt', 'updatedAt'].indexOf(key) != -1) return false;
+            const keyData = props[key];
+            console.log(keyData.type.toString())
+            if (!isInputField(keyData.type)) return false;
+            return true;
+        })
+        return keyValids;
+    }
 }
+ModelAPI.getTables = function () {
+    const modelsName = Object.keys(DB.models);
+    const models = modelsName.map(name => new ModelAPI(name))
+    return models;
+}
+
 module.exports = ModelAPI;

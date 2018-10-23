@@ -1,0 +1,30 @@
+<div>
+    <h1>
+        <%= dataFields.name %>
+    </h1>
+    <%  if(dataFields.datasets.length > 0 ) {
+        const keys = Object.keys(dataFields.datasets[0])
+        %>
+    <!-- add Data-->
+    <%- await hookAPI.do_action('MODEL_SINGLE_ADD_FORM') -%>
+    <!-- add Data-->
+    <table>
+        <tr>
+            <% keys.map(key => { %>
+            <th>
+                <%=key%>
+            </th>
+            <% }) %>
+        </tr>
+        <% dataFields.datasets.map(row => { %>
+        <tr>
+            <% keys.map(key => { %>
+            <td>
+                <%= row[key]|| null %>
+            </td>
+            <% }) %>
+        </tr>
+        <% }) %>
+    </table>
+    <% } %>
+</div>

@@ -18,6 +18,15 @@ route.configValidate({
                 "password": route.joi.string().min(6).required()
             }
         }
+    },
+    "/user": {
+        "POST": {
+            body: {
+                "username": route.joi.string().min(4).required(),
+                "password": route.joi.string().min(6).required(),
+                "role": route.joi.string().min(4).required()
+            }
+        }
     }
 })
 route.listen()
@@ -32,6 +41,8 @@ route.get('/', async (req, res) => {
             return 'Dashboard | ' + user.username
         }
     })
+    const models = ModelAPI.getTables();
+    models.map(model => model)
     await res.renderStream('admin/template/header.ejs')
     await res.renderStream('admin/home.ejs')
     await res.renderStream('admin/template/footer.ejs')
@@ -50,7 +61,7 @@ route.get('/login', async function (req, res) {
     hookAPI.add_action('ADMIN_LOGIN_FORM', {
         callback: async function (oldData) {
             oldData = oldData || '\n';
-            const User = new ModelAPI('UserModel');
+            const User = new ModelAPI('user');
             /* Render Login Form */
             const loginFormTemplate = themeAPI.getAdminTemplatePath('login/loginform.ejs');
             const hookAPI = res.locals.hookAPI;
@@ -71,7 +82,7 @@ route.post('/login', async function (req, res) {
         return res.error(new Error('Please Wait 6 seconds to continue'))
     }
     //res.setHeader('Content-Type', 'application/json');
-    const User = new ModelAPI('UserModel');
+    const User = new ModelAPI('user');
     const user = new User.Model(req.body);
     user
         .checkCredentials()
@@ -90,4 +101,53 @@ route.post('/login', async function (req, res) {
             res.send(err)
         })
 
+})
+route.get('/:model/', async function (req, res) {
+
+    const modelAPI = new ModelAPI(req.params.model);
+    const hookAPI = res.locals.hookAPI;
+    const dataSets = await modelAPI.Model.findAll({
+        where: {},
+        raw: true
+    })
+    hookAPI.add_filter('ADMIN_PAGE_TITLE', {
+        callback: function () {
+            return req.params.model
+        }
+    })
+    hookAPI.add_action('MODEL_SINGLE_ADD_FORM', {
+        callback: async function (oldData) {
+            oldData = oldData || '';
+            const keys = modelAPI.getInputFields();
+            const html = await modelAPI.getFormTemplate(keys, themeAPI.getAdminTemplatePath('model/add_form.ejs'), hookAPI)
+            return oldData + html;
+        }
+    })
+    await res.renderStream('admin/template/header.ejs');
+    await res.renderStream('admin/model.single.ejs', {
+        dataFields: {
+            name: req.params.model,
+            datasets: dataSets
+        }
+    })
+    await res.renderStream('admin/template/footer.ejs');
+    res.end()
+})
+/**
+ * add Record
+ */
+route.post('/:model/', async function (req, res) {
+    const modelAPI = new ModelAPI(req.params.model);
+    const record = new modelAPI.Model(req.body);
+    record
+        .save()
+        .then(result => {
+            res.redirect(req.originalUrl);
+            return
+            res.success(result)
+        })
+        .catch(err => {
+            console.log(err);
+            res.error(err)
+        })
 })

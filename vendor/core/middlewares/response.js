@@ -6,11 +6,14 @@ const {
 } = require('../../express')
 
 module.exports = function (req, res, next) {
-    res.renderStream = function (filePath) {
+    res.renderStream = function (filePath, payload = {}) {
         return new Promise(resolve => {
             const viewPath = app.get('views');
             const fileRealPath = path.join(viewPath, filePath)
-            ejs.renderFile(fileRealPath, res.locals, {
+            ejs.renderFile(fileRealPath, {
+                    ...payload,
+                    ...res.locals
+                }, {
                     async: true
                 })
                 .then(html => {
