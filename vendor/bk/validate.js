@@ -14,7 +14,7 @@ const Validation = {
 
 
 const Routes = Object.keys(Validation);
-module.exports = (function() {
+module.exports = (function () {
     return {
         init: () => {
             Routes.map(route => {

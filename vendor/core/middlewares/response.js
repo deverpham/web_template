@@ -14,10 +14,21 @@ module.exports = function (req, res, next) {
                     async: true
                 })
                 .then(html => {
-                    console.log('html', html)
                     res.write(html)
                     resolve();
                 })
+        })
+    }
+    res.success = function (payload) {
+        return res.json({
+            status: 'success',
+            payload
+        })
+    }
+    res.error = function (error, status = 400) {
+        return res.status(status).json({
+            status: 'error',
+            error: error.toString()
         })
     }
     next();

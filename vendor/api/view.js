@@ -14,20 +14,44 @@ class ViewAPI {
     }
     addScript(res, script) {
         const hookAPI = res.locals.hookAPI;
-        hookAPI.add_action('RESPONSE_HEAD_T', {
-            callback: async function () {
+        hookAPI.add_action('RESPONSE_HEAD', {
+            callback: async function (oldScript) {
+                oldScript = oldScript || '';
                 switch (script.type) {
 
                     case 'link':
                         {
-                            return res.write(`<script src = ${script.content}></script>`)
+                            return oldScript + `<script src = ${script.content}></script>`
                         }
                         /**
                          * case text
                          */
                     default:
                         {
-                            return res.write(`<script>${script.content}</script>`)
+                            return oldScript + `<script>${script.content}</script>`
+                        }
+                }
+            }
+        })
+    }
+
+    addCss(res, script) {
+        const hookAPI = res.locals.hookAPI;
+        hookAPI.add_action('RESPONSE_HEAD', {
+            callback: async function (oldScript) {
+                oldScript = oldScript || '';
+                switch (script.type) {
+
+                    case 'link':
+                        {
+                            return oldScript + `<link rel='stylesheet' href = ${script.content} />`
+                        }
+                        /**
+                         * case text
+                         */
+                    default:
+                        {
+                            return oldScript + `<style>${script.content}</style>`
                         }
                 }
             }

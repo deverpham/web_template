@@ -1,7 +1,12 @@
 const UserModel = require('./model/user')
-const { DB } = require('./sequelize')
+const {
+    DB
+} = require('./sequelize')
+
 function loadDatabase() {
-    return DB.sync()
+    return DB.sync({
+        force: false
+    })
 }
 module.exports = {
     UserModel,

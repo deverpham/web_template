@@ -7,6 +7,8 @@ const HookAPI = require('./hooks')
 const viewAPI = require('./view')
 const themeAPI = require('./theme')
 const ModelAPI = require('./model')
+const configAPI = require('./config')
+const CookieAPI = require('./cookie')
 
 function bootApp() {
 
@@ -19,5 +21,7 @@ module.exports = {
     viewAPI,
     themeAPI,
     ModelAPI,
-    bootApp
+    configAPI,
+    bootApp,
+    CookieAPI
 }

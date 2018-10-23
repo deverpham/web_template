@@ -28,7 +28,17 @@ const User = DB.define('user', {
         defaultValue: 'member'
     }
 })
-User.prototype.checkCredentials = (username, password) => {
-    console.log(this, username, password);
+User.prototype.checkCredentials = function () {
+    const {
+        username,
+        password
+    } = this.dataValues
+    return User.findOne({
+        where: {
+            username,
+            password
+        }
+    })
+
 }
 module.exports = User;

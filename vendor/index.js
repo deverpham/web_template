@@ -1,11 +1,11 @@
-
-const { app } = require('./express')
-const routes = require('./loadRouter')
+const {
+    app
+} = require('./express')
 const API = require('./api/index');
 const core = require('./core')
 /**
-     * Run App
-     * @param {object} option
+ * Run App
+ * @param {object} option
  */
 app.startServer = async function (option) {
     await core.bootApp();
