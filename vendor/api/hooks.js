@@ -1,5 +1,7 @@
-
-const { filterBags } = require('./helpers/asynchook')
+const {
+    filterBags,
+    actionPipe
+} = require('./helpers/asynchook')
 const filterModule = require('loopback-filters')
 const randomString = require('randomstring');
 class Hook {
@@ -11,9 +13,8 @@ class Hook {
      * @todo remove default
      * @param {string} hookName 
      */
-    do_action(hookName) {
-        const defualt = {}
-        return new Promise(resolve => {
+    do_action(hookName, defaultValue) {
+        return new Promise((resolve, reject) => {
             if (hookName in this.hooks) {
                 const list = Object.keys(this.hooks[hookName]).map(hook => {
                     return this.hooks[hookName][hook]
@@ -21,11 +22,12 @@ class Hook {
                 const orderedHooks = filterModule(list, {
                     order: 'order ASC'
                 }).map(hook => hook.callback)
-                filterBags(defualt, ...orderedHooks).then(result => {
+
+                actionPipe(defaultValue, ...orderedHooks).then(result => {
                     resolve(result)
                 })
             } else {
-                resolve()
+                resolve(null)
             }
         })
     }

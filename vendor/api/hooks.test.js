@@ -1,10 +1,18 @@
 const HookFilter = require('./hooks');
 const hook = new HookFilter();
 hook.add_action('TEST', {
-    callback: function () {
-        console.log('gg')
+    callback: function (person) {
+        person.age = 20
+        return person
     }
 })
-hook.do_action('TEST').then(result => {
-    console.log('done')
+hook.add_action('TEST', {
+    callback: function (value) {
+        return value;
+    }
+})
+hook.do_action('TEST', {
+    name: 'thinh'
+}).then(result => {
+    console.log(JSON.stringify(result))
 })

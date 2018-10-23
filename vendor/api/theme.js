@@ -1,5 +1,10 @@
-const { app } = require('../express')
-const { EventEmitter } = require('events');
+const {
+    app
+} = require('../express')
+const {
+    EventEmitter
+} = require('events');
+const path = require('path');
 class ThemeAPI {
     constructor(name, dir) {
         this.controller = new EventEmitter();
@@ -16,6 +21,14 @@ class ThemeAPI {
     }
     getThemeDir() {
         return app.get('views')
+    }
+    getAdminTemplateDir() {
+        const themeDir = this.getThemeDir();
+        return path.join(themeDir, './admin/template');
+    }
+    getAdminTemplatePath(templatePath) {
+        const adminTemplateDir = this.getAdminTemplateDir();
+        return path.join(adminTemplateDir, templatePath);
     }
     setTheme(dir) {
         this.controller.emit('change', dir)

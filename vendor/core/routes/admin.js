@@ -1,6 +1,8 @@
 const {
     RouterAPI,
-    ModelAPI
+    ModelAPI,
+    themeAPI,
+    viewAPI
 } = require('../../api')
 const route = new RouterAPI('admin');
 /**
@@ -25,23 +27,66 @@ route.get('/', async (req, res) => {
 })
 
 route.get('/login', async function (req, res) {
-    res.setHeader('Content-type', 'text/html')
+    res.setHeader('Content-type', 'text')
     const hookAPI = res.locals.hookAPI;
     hookAPI.add_filter('ADMIN_PAGE_TITLE', {
         callback: async function () {
+            console.log('first')
             return 'Login'
         }
     })
-    hookAPI.add_filter('ADMIN_LOGIN_FORM', {
-        callback: async function () {
-            const User = new ModelAPI('UserModel');
-            return User.getForm('input', ['username', 'password', 'role'])
+    hookAPI.add_action('RESPONSE_HEAD', {
+        callback: function () {
+            res.write('bester');
         }
     })
+    hookAPI.add_action('ADMIN_LOGIN_FORM', {
+        callback: async function (oldData) {
+            oldData = oldData || '\n';
+            console.log('later');
+            const User = new ModelAPI('UserModel');
+            /* Render Login Form */
+            const loginFormTemplate = themeAPI.getAdminTemplatePath('login/loginform.ejs');
+            const hookAPI = res.locals.hookAPI;
+            const result = await User.getFormTemplate(['username', 'password', 'role'], loginFormTemplate, hookAPI)
+            return oldData + result;
+            //return result;
+            /* Render Login Form */
+        }
+    })
+    hookAPI.add_action('ADMIN_LOGIN_FORM', {
+        callback: async function (oldData) {
+            console.log('later');
+            const User = new ModelAPI('UserModel');
+            /* Render Login Form */
+            const loginFormTemplate = themeAPI.getAdminTemplatePath('login/loginform.ejs');
+            const hookAPI = res.locals.hookAPI;
+            const result = await User.getFormTemplate(['username', 'password', 'role'], loginFormTemplate, hookAPI)
+            return oldData + result;
+            //return result;
+            /* Render Login Form */
+        }
+    })
+    /*
+    await res.renderStream('admin/template/header.ejs')
+    await hookAPI.do_action('ADMIN_LOGIN_FORM')
+    await res.renderStream('admin/template/footer.ejs')
+    */
     await res.renderStream('admin/login.ejs')
     res.end();
 })
-
-route.post('/login', (req, res) => {
-
+route.get('/test', async function (req, res) {
+    res.setHeader('Content-Type', 'text/html');
+    const hookAPI = res.locals.hookAPI;
+    hookAPI.add_action('TEST', {
+        callback: async function () {
+            const User = new ModelAPI('UserModel');
+            const loginFormTemplate = themeAPI.getAdminTemplatePath('login/loginform.ejs');
+            const hookAPI = res.locals.hookAPI;
+            const loginForm = await User.getFormTemplate(['username', 'password', 'role'], loginFormTemplate, hookAPI);
+            return loginForm;
+        }
+    })
+    await hookAPI.do_action('TEST');
+    res.end();
 })

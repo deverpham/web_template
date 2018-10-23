@@ -1,6 +1,7 @@
 const {
     UserModel
 } = require('../core/database');
+const ejs = require('ejs')
 
 function getTypeDOM(type) {
     switch (type) {
@@ -38,27 +39,38 @@ function getDom(field) {
     }
 
 }
+
+/**
+ * 
+ * @param {Array} fields a list of field
+ */
+function getDomsHTML(fields) {
+    let html = ``
+    fields.map(field => html += getDom(field))
+    return html;
+}
 class ModelAPI {
     constructor(name) {
         this.Model = eval(` (${name})`)
     }
-    getForm(type, fields) {
+    /**
+     * render a template with fields
+     * @param {Array} fields a list of property objects 
+     * @param {string} templatePath path of template Name
+     * @param {object} hookAPI  hookAPI in template ejs
+     */
+    getFormTemplate(fields, templatePath, hookAPI) {
         const props = this.Model.rawAttributes;
-        let html = ``
-        html += `
-            <form action='' method='post'>
-        `
-        switch (type) {
-            default:
-                {
-                    fields.map(field => {
-                        html += getDom(props[field])
+        const dataFields = fields.map(field => props[field])
+        return ejs.renderFile(templatePath, {
+            dataFields,
+            hookAPI,
+            getDOM: getDom,
+            getDOMS: getDomsHTML,
+        }, {
+            async: true
+        })
 
-                    })
-                    html += `<button type ='submit'>Submit</button>`
-                    return html
-                }
-        }
     }
 }
 module.exports = ModelAPI;
