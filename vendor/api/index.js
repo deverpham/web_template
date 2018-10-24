@@ -9,6 +9,7 @@ const themeAPI = require('./theme')
 const ModelAPI = require('./model')
 const configAPI = require('./config')
 const CookieAPI = require('./cookie')
+const pathAPI = require('./path')
 
 function bootApp() {
 
@@ -22,6 +23,7 @@ module.exports = {
     themeAPI,
     ModelAPI,
     configAPI,
-    bootApp,
-    CookieAPI
+    CookieAPI,
+    pathAPI,
+    bootApp
 }

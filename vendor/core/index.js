@@ -1,5 +1,7 @@
 const {
-    themeAPI
+    themeAPI,
+    viewAPI,
+    configAPI
 } = require('../api')
 const {
     app
@@ -24,11 +26,17 @@ async function bootApp() {
         await res.locals.hookAPI.do_action('ON_STARTING_REQUEST');
         next();
     })
+    LoadStaticFolder();
     loadRoutes();
 }
 
 function loadTheme() {
     themeAPI.setTheme(path.join(__dirname, '../../themes/deverpham'));
+}
+
+function LoadStaticFolder() {
+    const staticPath = configAPI.getStaticPath();
+    viewAPI.setStatic(staticPath.route, staticPath.path)
 }
 
 function loadRoutes() {

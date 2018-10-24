@@ -2,7 +2,10 @@ const {
     RouterAPI,
     ModelAPI,
     themeAPI,
-    CookieAPI
+    CookieAPI,
+    viewAPI,
+    pathAPI,
+    configAPI
 } = require('../../api')
 const route = new RouterAPI('admin');
 const adminController = require('../controllers/admin.controller');
@@ -23,8 +26,12 @@ route.configValidate({
         "POST": {
             body: {
                 "username": route.joi.string().min(4).required(),
-                "password": route.joi.string().min(6).required(),
-                "role": route.joi.string().min(4).required()
+                "password": route.joi.string().min(6).required()
+            }
+        },
+        "DELETE": {
+            query: {
+                id: route.joi.number().required()
             }
         }
     }
@@ -103,12 +110,24 @@ route.post('/login', async function (req, res) {
 
 })
 route.get('/:model/', async function (req, res) {
-
+    res.setHeader('Content-Type', 'text/html')
+    console.log(req.params.model)
     const modelAPI = new ModelAPI(req.params.model);
+    console.log(modelAPI)
     const hookAPI = res.locals.hookAPI;
     const dataSets = await modelAPI.Model.findAll({
         where: {},
         raw: true
+    })
+    viewAPI.addScript(res, {
+        type: 'text',
+        content: `
+        const ORIGINAL_URL = '${req.originalUrl}'
+        `
+    })
+    viewAPI.addScript(res, {
+        type: 'link',
+        content: pathAPI.static().getFileUrl('js/admin/model.controller.js')
     })
     hookAPI.add_filter('ADMIN_PAGE_TITLE', {
         callback: function () {
@@ -148,6 +167,18 @@ route.post('/:model/', async function (req, res) {
         })
         .catch(err => {
             console.log(err);
+            res.error(err)
+        })
+})
+route.delete('/:model/', async function (req, res) {
+    const modelAPI = new ModelAPI(req.params.model);
+    const record = new modelAPI.Model(req.query);
+    record
+        .destroy()
+        .then(result => {
+            res.success(result)
+        })
+        .catch(err => {
             res.error(err)
         })
 })

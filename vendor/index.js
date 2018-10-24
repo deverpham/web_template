@@ -12,7 +12,7 @@ app.startServer = async function (option) {
 
     //await routes.start();
     app.use('*', async (req, res) => {
-        res.send('404')
+        res.error(new Error('not found'))
     })
     app.listen(option.port, () => {
         if ('callback' in option) option.callback();
