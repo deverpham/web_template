@@ -15,6 +15,7 @@ class RouterAPI {
         this.router['listen'] = this.listen.bind(this)
         this.router['initValidate'] = this.initValidate.bind(this)
         this.router['configValidate'] = this.configValidate.bind(this)
+        this.router['enableGuard'] = this.enableGuard.bind(this)
         return this.router
     }
     listen() {
@@ -34,6 +35,11 @@ class RouterAPI {
     }
     configValidate(validates) {
         this.validates = validates;
+    }
+    enableGuard(...guards) {
+        guards.map(guard => {
+            this.router.use(guard.listen())
+        })
     }
 }
 module.exports = RouterAPI;

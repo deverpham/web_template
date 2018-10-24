@@ -5,10 +5,11 @@ const {
     CookieAPI,
     viewAPI,
     pathAPI,
-    configAPI
+    GuardAPI
 } = require('../../api')
 const route = new RouterAPI('admin');
 const adminController = require('../controllers/admin.controller');
+
 /**
  * set middlewares
  */
@@ -36,11 +37,19 @@ route.configValidate({
         }
     }
 })
+const AuthGuard = new GuardAPI('AuthGuard');
+AuthGuard.setCallbackUrl('/login')
+AuthGuard.setExceptRoute('/login')
+route.enableGuard(AuthGuard)
+
 route.listen()
 
+/**
+ * Config Router
+ */
 route.get('/', async (req, res) => {
-    const cookieAPI = new CookieAPI(req);
-    const user = cookieAPI.get('user');
+    const cookieAPI = new CookieAPI(req); //parse Cookie
+    const user = cookieAPI.get('user'); //Check if Login
     if (!user) return res.redirect('/admin/login')
     const hookAPI = res.locals.hookAPI;
     hookAPI.add_filter('ADMIN_PAGE_TITLE', {

@@ -1,13 +1,16 @@
-
+const {
+    MonitorAPI,
+    loggerAPI
+} = require('../../vendor')
+const os = require('os');
 
 module.exports = (function () {
     return {
         init: async function (req, res) {
-            if (os.platform().indexOf('win')) {
+            if (os.platform().indexOf('win') && false) {
                 this.done();
                 return;
-            }
-            else {
+            } else {
                 const hookAPI = res.locals.hookAPI;
                 const pfCheck = new MonitorAPI(true);
                 await pfCheck.start();
@@ -33,6 +36,3 @@ module.exports = (function () {
         }
     }
 }())
-
-const { MonitorAPI, loggerAPI } = require('../../vendor')
-const os = require('os');
