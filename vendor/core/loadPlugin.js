@@ -1,7 +1,9 @@
 const path = require('path');
 const glob = require('glob');
 const fs = require('fs');
-const { loggerAPI } = require('../api')
+const {
+    loggerAPI
+} = require('../api')
 module.exports = (function () {
     const pluginFolder = path.join(__dirname, '../../plugins/*/');
     return {
@@ -11,6 +13,8 @@ module.exports = (function () {
             const cachewillbeRemove = []
             plugins.filter(async plugin => {
                 let indexFilePath = path.join(plugin, `./index.js`);
+                const disablePath = path.join(plugin, './disable.js');
+                if (fs.existsSync(disablePath)) return;
                 if (!fs.existsSync(indexFilePath)) {
                     loggerAPI.warn('plugin: ' + path.basename(plugin).toUpperCase() + `: missing index.js file`)
                 } else {

@@ -9,7 +9,6 @@ const {
 } = require('../../api')
 const route = new RouterAPI('admin');
 const adminController = require('../controllers/admin.controller');
-
 /**
  * set middlewares
  */
@@ -37,11 +36,21 @@ route.configValidate({
         }
     }
 })
-const AuthGuard = new GuardAPI('AuthGuard');
-AuthGuard.setCallbackUrl('/login')
-AuthGuard.setExceptRoute('/login')
+const AuthGuard = new GuardAPI({
+    name: 'AuthGuard',
+    callbackUrl: '/admin/login',
+    exceptRoute: ['/login', '/register'],
+    canActivate: async function (req, res) {
+        const cookieAPI = new CookieAPI(req)
+        const userStored = cookieAPI.get('user');
+        if (!userStored) return false;
+        const User = new ModelAPI('user');
+        const user = new User.Model(userStored);
+        const isExist = user.checkCredentials();
+        return isExist;
+    }
+});
 route.enableGuard(AuthGuard)
-
 route.listen()
 
 /**
@@ -94,7 +103,7 @@ route.post('/login', async function (req, res) {
     const cookieAPI = new CookieAPI(req);
     cookieAPI.set('submitTime', cookieAPI.get('submitTime') + 1 || 1)
     const submitTime = cookieAPI.get('submitTime');
-    if (submitTime >= 6) {
+    if (submitTime >= 6 && false) {
         return res.error(new Error('Please Wait 6 seconds to continue'))
     }
     //res.setHeader('Content-Type', 'application/json');
@@ -118,11 +127,13 @@ route.post('/login', async function (req, res) {
         })
 
 })
+
+route.get('/register', async function (req, res) {
+    res.success('nothing')
+})
 route.get('/:model/', async function (req, res) {
     res.setHeader('Content-Type', 'text/html')
-    console.log(req.params.model)
     const modelAPI = new ModelAPI(req.params.model);
-    console.log(modelAPI)
     const hookAPI = res.locals.hookAPI;
     const dataSets = await modelAPI.Model.findAll({
         where: {},

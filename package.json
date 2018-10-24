@@ -83,5 +83,7 @@
     ]
   },
   "preferGlobal": true,
-  "bin": "./test.command.js"
+  "quokka": {
+    "babel": true
+  }
 }

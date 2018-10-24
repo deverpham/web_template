@@ -2,15 +2,18 @@ const program = require('commander');
 const exec = require('shell-exec')
 const exectSh = require('exec-sh');
 program
-    .version(1.0)
+    .version('0.1.2')
     .description('Node Testing Tool')
 program
-    .command('t <file> <type>')
-    .description('Test a file with coverage + mocha')
     .action((file, type) => {
-        console.log(`nyc --reporter=${type} mocha ` + file)
-        exectSh(`nyc --reporter=${type} mocha ` + file, {
-            cwd: "./"
+        if(!file || typeof file === 'object') {
+            console.log('missing file path')
+            return;
+        }
+        if(!type || typeof type === 'object') type = 'text'
+        console.log(`nyc --reporter=${type} --report-dir ./coverage mocha ` + file)
+        exectSh(`nyc --report-dir ./coverage --reporter=${type} mocha  ` + file, {
+       
         }, err => {
             if (err) {
                 console.log("Exit code: ", err.code);

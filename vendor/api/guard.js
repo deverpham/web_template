@@ -1,19 +1,31 @@
 class SettingInterFace {
     constructor() {
         /**
-         * @type {string} string
+         * @type {string} 
          */
         this.name = '';
+        /**
+         * @type {string} 
+         */
         this.callbackUrl = '';
-        this.exceptRoute = '';
+        /**
+         * @type {Array} 
+         */
+        this.exceptRoute = [];
+        /**
+         * @type {async}
+         */
+        this.canActivate = {};
     }
 }
 class GuardAPIInTerFace {
 
     constructor(setting) {
+        console.log(setting.canActivate == true)
         this.name = setting.name;
         this.callbackUrl = setting.callbackUrl || '';
         this.exceptRoute = setting.exceptRoute || []
+        this.canActivate = setting.canActivate || this.canActivate
     }
     /**
      * @return {Promise}
@@ -28,13 +40,13 @@ class GuardAPIInTerFace {
         if (this.exceptRoute.indexOf(route) != -1) return true;
         return false;
     }
-    setExceptRoute(route) {
-        return this.exceptRoute.push(route)
+    setExceptRoute(...route) {
+        return this.exceptRoute.push(...route)
     }
     listen() {
         return async (req, res, next) => {
             const nowRoute = req.path;
-            if (this.isExceptRoute(nowRoute) || await this.canActivate()) next();
+            if (this.isExceptRoute(nowRoute) || await this.canActivate(req, res)) next();
             else {
                 res.redirect(this.callbackUrl)
                 return;

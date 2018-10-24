@@ -18,7 +18,6 @@ class ViewAPI {
     }
     addScript(res, script) {
         const hookAPI = res.locals.hookAPI;
-        console.log(hookAPI)
         return hookAPI.add_action('RESPONSE_HEAD', {
             callback: async function (oldScript) {
                 oldScript = oldScript || '';
