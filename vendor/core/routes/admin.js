@@ -5,7 +5,8 @@ const {
     CookieAPI,
     viewAPI,
     pathAPI,
-    GuardAPI
+    GuardAPI,
+    configAPI
 } = require('../../api')
 const route = new RouterAPI('admin');
 const adminController = require('../controllers/admin.controller');
@@ -88,6 +89,11 @@ route.get('/login', async function (req, res) {
 })
 
 route.post('/login', async function (req, res) {
+    // A base key for generate key
+    const hash = configAPI.getCrypto()
+        .update(req.body.password) // Update with content need to be hashed
+        .digest('base64');
+
     const cookieAPI = new CookieAPI(req);
     cookieAPI.set('submitTime', cookieAPI.get('submitTime') + 1 || 1)
     const submitTime = cookieAPI.get('submitTime');
@@ -95,8 +101,12 @@ route.post('/login', async function (req, res) {
         return res.error(new Error('Please Wait 6 seconds to continue'))
     }
     //res.setHeader('Content-Type', 'application/json');
+    let credendials = {
+        username: req.body.username,
+        password: hash
+    }
     const User = new ModelAPI('user');
-    const user = new User.Model(req.body);
+    const user = new User.Model(credendials);
     user
         .checkCredentials()
         .then(user => {

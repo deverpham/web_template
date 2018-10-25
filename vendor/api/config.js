@@ -1,4 +1,5 @@
 const path = require('path');
+const crypto = require('crypto');
 class ConfigAPI {
     constructor(defaultConfig = {
         server: {
@@ -16,7 +17,8 @@ class ConfigAPI {
                 idle: 10000
             },
             storage: path.join(__dirname, './database.db'),
-            operatorsAliases: false
+            operatorsAliases: false,
+            secret_key: "Let's CBD"
         },
         view: {
             static: {
@@ -36,6 +38,11 @@ class ConfigAPI {
     getStaticPath() {
         console.log(this.configOpts.view.static)
         return this.configOpts.view.static;
+    }
+    getCrypto() {
+
+        const salt = this.configOpts.database.secret_key
+        return crypto.createHmac('sha256', salt)
     }
 }
 module.exports = new ConfigAPI();
