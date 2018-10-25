@@ -84,7 +84,7 @@ route.listen()
  * Config Router
  */
 route.use('/', homeRoute)
-route.use('/plugin', pluginRoute)
+route.use('/plugin', pluginRoute.listen())
 route.get('/login', async function (req, res) {
 
     const hookAPI = res.locals.hookAPI;

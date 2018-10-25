@@ -14,7 +14,7 @@
         each: function(item) {
             return link({
                 name: item.active? 'disable' : 'active',
-                link: '/admin/plugin/' + item.name
+                link: '/admin/plugin/' + item.name+ '?action=toggle'
             })
         }
     }]

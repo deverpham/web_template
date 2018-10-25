@@ -1,1 +1,2 @@
 require('./admin')
+require('./homepage')
