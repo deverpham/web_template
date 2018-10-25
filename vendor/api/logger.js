@@ -10,7 +10,8 @@ class Logger {
 
         const mark = new Error();
         pe.render(mark)
-        console.log(chalk.blue(...message))
+        if (message.length == 1 && typeof message === 'object') return console.log(this.color('yellow', 'debug: '), message[0])
+        console.log('debug: ', chalk.blue(...message))
     }
     error(...message) {
 

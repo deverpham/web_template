@@ -14,7 +14,6 @@ function deleteRecord(id) {
 $(document).ready(function () {
     $('.model_action_delete').click(function () {
         const id = $(this).attr('data-id');
-        console.log(id)
         deleteRecord(id);
     })
 })

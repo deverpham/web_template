@@ -5,6 +5,7 @@ const {
     CookieAPI,
     viewAPI,
     pathAPI,
+    loggerAPI,
     GuardAPI
 } = require('../../api')
 const route = new RouterAPI('admin');
@@ -47,12 +48,10 @@ const AuthGuard = new GuardAPI({
     canActivate: async function (req, res) {
         const cookieAPI = new CookieAPI(req)
         const userStored = cookieAPI.get('user');
-        console.log(userStored)
         if (!userStored) return false;
         const User = new ModelAPI('user');
         const user = new User.Model(userStored);
         const isExist = await user.checkCredentials(true);
-        console.log(isExist)
         return isExist;
     }
 });
@@ -176,7 +175,7 @@ route.post('/:model/', async function (req, res) {
             res.success(result)
         })
         .catch(err => {
-            console.log(err);
+            loggerAPI.error(err);
             res.error(err)
         })
 })

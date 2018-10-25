@@ -38,7 +38,6 @@ class ConfigAPI {
         return this.configOpts.server.siteUrl;
     }
     getStaticPath() {
-        console.log(this.configOpts.view.static)
         return this.configOpts.view.static;
     }
     getPluginFolder() {

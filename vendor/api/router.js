@@ -1,6 +1,7 @@
 const {
     Router
 } = require('express')
+const loggerAPI = require('./logger')
 const {
     app
 } = require('../express')
@@ -19,7 +20,7 @@ class RouterAPI {
         return this.router
     }
     listen() {
-        console.log(`listen Route`, this.slash)
+        loggerAPI.debug(`listen Route`, this.slash)
         app.use('/' + this.slash, this.router)
         this.initValidate();
     }
@@ -48,7 +49,7 @@ class RouterChild extends RouterAPI {
         super(slash)
     }
     listen() {
-        console.log(`listen Route Child`)
+        loggerAPI.debug(`listen Route Child`)
         this.initValidate();
     }
 }
