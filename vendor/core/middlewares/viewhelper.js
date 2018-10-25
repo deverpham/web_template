@@ -10,9 +10,7 @@ module.exports = function (req, res, next) {
     const helpers = glob.sync(themeAPI.getThemeHelperDir() + '/*.ejs');
     helpers.map(helper => {
         const name = path.basename(helper).replace('.ejs', '');
-        loggerAPI.debug(name)
         const content = fs.readFileSync(helper).toString()
-        console.log(res.locals.hookAPI)
         res.locals[name] = function (data) {
             const dataMapLocals = Object.assign(res.locals, data)
             return ejs.compile(content, {

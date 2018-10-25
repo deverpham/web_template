@@ -1,10 +1,9 @@
 <% 
-console.log(hookAPI)
-    const ths = Object.keys(items[0] || {})
+    const ths = fields || Object.keys( items[0] || {})
 %>
 <div class='table-responsive mt-2'>
     <h3 ><%= name %></h3>
-    <table class='table mt-2' style='max-height: 700px'>
+    <table class='table mt-2'>
         <thead>
             <tr>
             <% ths.map(th => {
@@ -15,10 +14,38 @@ console.log(hookAPI)
             </th>
 
             <% }) %>
+
+        <% addons.map(addon => {
+            %>
+
+            <th>
+                <%=addon.name %>
+            </th>
+
+            <% }) %>
             </tr>
         </thead>
         <tbody>
-        
+            <% items.map(async item => { %>
+                <tr>
+                <% ths.map(th => { %>
+                    <td><%=item[th] %></td>
+              <%  }) %>
+
+
+                <% const 
+                html = await addons[0].each(item)
+                console.log(html)
+                %>
+                        <td>
+                            <%- html %>
+                        <td>
+                
+                <tr>
+          <%  })%>
+
+          
+           
         </tbody>
     </table>
 </div>
