@@ -1,6 +1,5 @@
 const {
-    themeAPI,
-    loggerAPI
+    themeAPI
 } = require('../../api')
 const ejs = require('ejs');
 const glob = require('glob');
@@ -10,7 +9,6 @@ module.exports = function (req, res, next) {
     const helpers = glob.sync(themeAPI.getThemeHelperDir() + '/*.ejs');
     helpers.map(helper => {
         const name = path.basename(helper).replace('.ejs', '');
-        loggerAPI.debug(name)
         const content = fs.readFileSync(helper).toString()
         console.log(res.locals.hookAPI)
         res.locals[name] = function (data) {
