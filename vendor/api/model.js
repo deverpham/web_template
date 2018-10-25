@@ -109,5 +109,4 @@ ModelAPI.getTables = function () {
     const models = modelsName.map(name => new ModelAPI(name))
     return models;
 }
-
 module.exports = ModelAPI;

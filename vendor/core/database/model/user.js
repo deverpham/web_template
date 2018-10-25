@@ -40,7 +40,6 @@ User.prototype.checkCredentials = function (isHash = false) {
         const hash = helperAPI.encrypt('base64', password)
         password = hash
     }
-    console.log(password)
     return User.findOne({
         where: {
             username,
