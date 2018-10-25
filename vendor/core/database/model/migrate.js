@@ -2,10 +2,7 @@ const User = require('./user')
 const {
     helperAPI
 } = require('../../../api')
-const hash = helperAPI.getCrypto()
-    .update('thinh123123') // Update with content need to be hashed
-    .digest('base64');
-
+const hash = helperAPI.encrypt('base64', 'thinh123123')
 const user = User.build({
     username: 'deverpham',
     password: hash

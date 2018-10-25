@@ -37,9 +37,7 @@ User.prototype.checkCredentials = function (isHash = false) {
         password
     } = this.dataValues
     if (!isHash) {
-        const hash = helperAPI.getCrypto()
-            .update(password) // Update with content need to be hashed
-            .digest('base64');
+        const hash = helperAPI.encrypt('base64', password)
         password = hash
     }
     return User.findOne({
