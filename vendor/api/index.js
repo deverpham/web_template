@@ -1,7 +1,7 @@
-const Logger = require('./logger');
 const {
     Monitor
 } = require('./monitor')
+const loggerAPI = require('./logger');
 const {
     RouterAPI,
     RouterChild
@@ -14,13 +14,14 @@ const configAPI = require('./config')
 const CookieAPI = require('./cookie')
 const pathAPI = require('./path')
 const GuardAPI = require('./guard')
+const pluginAPI = require('./plugin')
 
 function bootApp() {
 
 }
 module.exports = {
     MonitorAPI: Monitor,
-    loggerAPI: new Logger(),
+    loggerAPI,
     RouterAPI,
     RouterChild,
     HookAPI,
@@ -31,5 +32,6 @@ module.exports = {
     CookieAPI,
     pathAPI,
     GuardAPI,
+    pluginAPI,
     bootApp
 }

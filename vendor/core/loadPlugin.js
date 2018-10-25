@@ -2,6 +2,9 @@ const path = require('path');
 const glob = require('glob');
 const fs = require('fs');
 const {
+    parseFromFile
+} = require('../api/helpers/json')
+const {
     loggerAPI
 } = require('../api')
 module.exports = (function () {

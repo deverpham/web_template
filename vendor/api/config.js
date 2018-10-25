@@ -23,6 +23,9 @@ class ConfigAPI {
                 path: path.join(__dirname, '../../static'),
                 route: '/assets'
             }
+        },
+        plugin: {
+            rootFolder: path.join(__dirname, '../../plugins')
         }
     }) {
         this.configOpts = defaultConfig
@@ -36,6 +39,9 @@ class ConfigAPI {
     getStaticPath() {
         console.log(this.configOpts.view.static)
         return this.configOpts.view.static;
+    }
+    getPluginFolder() {
+        return this.configOpts.plugin.rootFolder
     }
 }
 module.exports = new ConfigAPI();
