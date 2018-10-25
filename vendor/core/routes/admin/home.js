@@ -1,9 +1,9 @@
 const {
-    RouterChild,
+    RouterAPI,
     CookieAPI,
     viewAPI
 } = require('../../../api')
-const homeRoute = new RouterChild('/');
+const homeRoute = new RouterAPI();
 homeRoute.get('/', async (req, res) => {
     const cookieAPI = new CookieAPI(req); //parse Cookie
     const user = cookieAPI.get('user'); //Check if Login
@@ -30,5 +30,4 @@ homeRoute.get('/', async (req, res) => {
     await res.renderStream('admin/template/footer.ejs')
     res.end()
 })
-homeRoute.listen()
 module.exports = homeRoute;

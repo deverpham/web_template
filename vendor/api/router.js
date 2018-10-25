@@ -8,7 +8,7 @@ const {
 const validate = require('express-validation');
 const joi = require('joi')
 class RouterAPI {
-    constructor(slash) {
+    constructor(slash = '') {
         this.slash = slash;
         this.router = new Router()
         this.validates = {}
@@ -21,8 +21,7 @@ class RouterAPI {
     }
     listen() {
         loggerAPI.debug(`listen Route`, this.slash)
-        app.use('/' + this.slash, this.router)
-        this.initValidate();
+        app.use(this.slash, this.router);
     }
     initValidate() {
         const Routes = Object.keys(this.validates);
@@ -36,6 +35,7 @@ class RouterAPI {
     }
     configValidate(validates) {
         this.validates = validates;
+        this.initValidate();
     }
     enableGuard(...guards) {
         guards.map(guard => {

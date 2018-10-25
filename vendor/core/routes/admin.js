@@ -9,7 +9,7 @@ const {
     helperAPI,
     GuardAPI
 } = require('../../api')
-const route = new RouterAPI('admin');
+const route = new RouterAPI('/admin');
 const adminController = require('../controllers/admin.controller');
 const {
     homeRoute,
@@ -79,7 +79,6 @@ const AuthGuard = new GuardAPI({
     }
 });
 route.enableGuard(AuthGuard)
-route.listen()
 /**
  * Config Router
  */
@@ -217,3 +216,5 @@ route.delete('/:model/', async function (req, res) {
             res.error(err)
         })
 })
+
+route.listen()
