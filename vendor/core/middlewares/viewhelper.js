@@ -12,9 +12,7 @@ module.exports = function (req, res, next) {
         const content = fs.readFileSync(helper).toString()
         res.locals[name] = function (data) {
             const dataMapLocals = Object.assign(res.locals, data)
-            return ejs.compile(content, {
-                async: true
-            })(dataMapLocals)
+            return ejs.compile(content)(dataMapLocals)
         }
 
     })

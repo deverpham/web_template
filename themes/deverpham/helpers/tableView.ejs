@@ -31,16 +31,13 @@
                 <% ths.map(th => { %>
                     <td><%=item[th] %></td>
               <%  }) %>
-
-
-                <% const 
-                html = await addons[0].each(item)
-                console.log(html)
+  <% 
+                    addons.map(addon => {
                 %>
                         <td>
-                            <%- html %>
+                            <%- addon.each(item) %>
                         <td>
-                
+                <% }) %>
                 <tr>
           <%  })%>
 

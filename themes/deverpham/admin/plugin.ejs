@@ -12,10 +12,9 @@
     addons: [{
         name: 'action',
         each: function(item) {
-            return 'gg';
             return link({
-                name: 'thinh',
-                link: 'thinh'
+                name: item.active? 'disable' : 'active',
+                link: '/admin/plugin/' + item.name
             })
         }
     }]
