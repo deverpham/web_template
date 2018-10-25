@@ -17,11 +17,11 @@ homeRoute.get('/', async (req, res) => {
     const adminView = viewAPI.admin;
 
     adminView.addMenuItem(hookAPI, {
-        link: './user',
+        link: '/admin/user',
         name: 'User'
     })
     adminView.addMenuItem(hookAPI, {
-        link: './plugin',
+        link: '/admin/plugin',
         name: 'Plugin'
     })
 
