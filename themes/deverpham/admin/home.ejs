@@ -1,13 +1,7 @@
 <div id='admin' class='row'>
     <div class='col-2'>
         <ul>
-            <li>
-                <a href='/admin/user'>user</a>
-            </li>
-
-            <li>
-                <a href='/admin/projects'>Project</a>
-            </li>
+            <%- await hookAPI.do_action('MENU_DASHBOARD') %>
         </ul>
     </div>
     <div class='col-10'>

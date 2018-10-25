@@ -9,6 +9,7 @@ const {
 } = require('../../api')
 const route = new RouterAPI('admin');
 const adminController = require('../controllers/admin.controller');
+const homeRoute = require('./admin/home')
 /**
  * set middlewares
  */
@@ -56,23 +57,7 @@ route.listen()
 /**
  * Config Router
  */
-route.get('/', async (req, res) => {
-    const cookieAPI = new CookieAPI(req); //parse Cookie
-    const user = cookieAPI.get('user'); //Check if Login
-    if (!user) return res.redirect('/admin/login')
-    const hookAPI = res.locals.hookAPI;
-    hookAPI.add_filter('ADMIN_PAGE_TITLE', {
-        callback: async function () {
-            return 'Dashboard | ' + user.username
-        }
-    })
-    const models = ModelAPI.getTables();
-    models.map(model => model)
-    await res.renderStream('admin/template/header.ejs')
-    await res.renderStream('admin/home.ejs')
-    await res.renderStream('admin/template/footer.ejs')
-    res.end()
-})
+route.use('/', homeRoute)
 
 route.get('/login', async function (req, res) {
 

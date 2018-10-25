@@ -1,11 +1,13 @@
 const {
     app
 } = require('../express')
+const adminAPI = require('./view/admin')
 const express = require('express');
 class ViewAPI {
     constructor() {
         app.engine('html', require('ejs').renderFile);
         app.set('view engine', 'html');
+        this.admin = adminAPI
     }
     addEngine(name, func) {
         return app.engine(name, func)

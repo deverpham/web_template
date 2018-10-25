@@ -42,4 +42,16 @@ class RouterAPI {
         })
     }
 }
-module.exports = RouterAPI;
+class RouterChild extends RouterAPI {
+    constructor(slash) {
+        super(slash)
+    }
+    listen() {
+        console.log(`listen Route Child`, this.slash)
+        this.initValidate();
+    }
+}
+module.exports = {
+    RouterChild,
+    RouterAPI
+};
