@@ -2,6 +2,9 @@ const {
     DB,
     Sequelize
 } = require('../sequelize')
+const {
+    helperAPI
+} = require('../../../api')
 const User = DB.define('user', {
     id: {
         type: Sequelize.INTEGER,
@@ -28,11 +31,17 @@ const User = DB.define('user', {
         defaultValue: 'member'
     }
 })
-User.prototype.checkCredentials = function () {
-    const {
+User.prototype.checkCredentials = function (isHash = false) {
+    var {
         username,
         password
     } = this.dataValues
+    if (!isHash) {
+        const hash = helperAPI.getCrypto()
+            .update(password) // Update with content need to be hashed
+            .digest('base64');
+        password = hash
+    }
     return User.findOne({
         where: {
             username,

@@ -1,8 +1,8 @@
 const User = require('./user')
 const {
-    configAPI
+    helperAPI
 } = require('../../../api')
-const hash = configAPI.getCrypto()
+const hash = helperAPI.getCrypto()
     .update('thinh123123') // Update with content need to be hashed
     .digest('base64');
 

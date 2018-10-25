@@ -5,8 +5,7 @@ const {
     CookieAPI,
     viewAPI,
     pathAPI,
-    GuardAPI,
-    configAPI
+    GuardAPI
 } = require('../../api')
 const route = new RouterAPI('admin');
 const adminController = require('../controllers/admin.controller');
@@ -48,10 +47,12 @@ const AuthGuard = new GuardAPI({
     canActivate: async function (req, res) {
         const cookieAPI = new CookieAPI(req)
         const userStored = cookieAPI.get('user');
+        console.log(userStored)
         if (!userStored) return false;
         const User = new ModelAPI('user');
         const user = new User.Model(userStored);
-        const isExist = user.checkCredentials();
+        const isExist = await user.checkCredentials(true);
+        console.log(isExist)
         return isExist;
     }
 });
@@ -89,11 +90,6 @@ route.get('/login', async function (req, res) {
 })
 
 route.post('/login', async function (req, res) {
-    // A base key for generate key
-    const hash = configAPI.getCrypto()
-        .update(req.body.password) // Update with content need to be hashed
-        .digest('base64');
-
     const cookieAPI = new CookieAPI(req);
     cookieAPI.set('submitTime', cookieAPI.get('submitTime') + 1 || 1)
     const submitTime = cookieAPI.get('submitTime');
@@ -101,12 +97,8 @@ route.post('/login', async function (req, res) {
         return res.error(new Error('Please Wait 6 seconds to continue'))
     }
     //res.setHeader('Content-Type', 'application/json');
-    let credendials = {
-        username: req.body.username,
-        password: hash
-    }
     const User = new ModelAPI('user');
-    const user = new User.Model(credendials);
+    const user = new User.Model(req.body);
     user
         .checkCredentials()
         .then(user => {
