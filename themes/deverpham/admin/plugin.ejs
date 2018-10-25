@@ -1,3 +1,9 @@
 <%-await include('template/header.ejs') %>
 
+<% plugins.map(plugin => {
+ %>
+ <%=plugin.name %>
+<%
+})
+%>
 <%-await include('template/footer.ejs') %>

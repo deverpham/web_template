@@ -22,7 +22,6 @@ module.exports = (function () {
                         'PLUGIN',
                         loggerAPI.color('red', path.basename(plugin).toUpperCase()),
                         'missing package.json')
-                const disablePath = path.join(plugin, './disable.js');
                 if (pkgInfo == null || !pkgInfo.active) return;
                 let indexFilePath = path.join(plugin, pkgInfo.main);
                 if (!fs.existsSync(indexFilePath)) {
