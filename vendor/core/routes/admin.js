@@ -17,6 +17,24 @@ const {
  * set middlewares
  */
 route.use(adminController.autoAssets)
+route.use(function (req, res, next) {
+    const hookAPI = res.locals.hookAPI;
+    hookAPI.add_filter('MODEL_BEFORE_SAVE_DATA', {
+        callback: function (old, locals) {
+            const modelAPI = locals.modelAPI;
+            const {
+                name
+            } = modelAPI.Model;
+            if (name == 'user')
+                return {
+                    ...old,
+                    password: 'hashHere'
+                };
+            else return old
+        }
+    })
+    next()
+})
 route.configValidate({
     "/login": {
         "POST": {
@@ -47,18 +65,15 @@ const AuthGuard = new GuardAPI({
     canActivate: async function (req, res) {
         const cookieAPI = new CookieAPI(req)
         const userStored = cookieAPI.get('user');
-        console.log(userStored)
         if (!userStored) return false;
         const User = new ModelAPI('user');
         const user = new User.Model(userStored);
         const isExist = await user.checkCredentials(true);
-        console.log(isExist)
         return isExist;
     }
 });
 route.enableGuard(AuthGuard)
 route.listen()
-
 /**
  * Config Router
  */
@@ -166,8 +181,14 @@ route.get('/:model/', async function (req, res) {
  * add Record
  */
 route.post('/:model/', async function (req, res) {
+    const hookAPI = res.locals.hookAPI;
+
     const modelAPI = new ModelAPI(req.params.model);
-    const record = new modelAPI.Model(req.body);
+    let body = await hookAPI.do_filter('MODEL_BEFORE_SAVE_DATA', req.body, {
+        modelAPI
+    })
+    console.log(body)
+    const record = new modelAPI.Model(body);
     record
         .save()
         .then(result => {

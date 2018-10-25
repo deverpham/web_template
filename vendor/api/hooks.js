@@ -13,7 +13,7 @@ class Hook {
      * @todo remove default
      * @param {string} hookName 
      */
-    do_action(hookName, defaultValue) {
+    do_action(hookName, defaultValue = '', locals = old => old) {
         return new Promise((resolve, reject) => {
             if (hookName in this.hooks) {
                 const list = Object.keys(this.hooks[hookName]).map(hook => {
@@ -23,7 +23,7 @@ class Hook {
                     order: 'order ASC'
                 }).map(hook => hook.callback)
 
-                actionPipe(defaultValue, ...orderedHooks).then(result => {
+                actionPipe(defaultValue, locals, ...orderedHooks).then(result => {
                     resolve(result)
                 })
             } else {
@@ -60,7 +60,7 @@ class HookFilter extends Hook {
         this.filter_index = 0;
     }
 
-    do_filter(hookName, defualt = {}) {
+    do_filter(hookName, defaultValue = '', locals = old => old) {
         return new Promise(resolve => {
             if (hookName in this.filter_hooks) {
                 const list = Object.keys(this.filter_hooks[hookName]).map(hook => {
@@ -69,11 +69,11 @@ class HookFilter extends Hook {
                 const orderedHooks = filterModule(list, {
                     order: 'order ASC'
                 }).map(hook => hook.callback)
-                filterBags(defualt, ...orderedHooks).then(result => {
+                filterBags(defaultValue, locals, ...orderedHooks).then(result => {
                     resolve(result)
                 })
             } else {
-                resolve(defualt)
+                resolve(defaultValue)
             }
         })
     }
