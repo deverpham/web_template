@@ -16,7 +16,8 @@ class ConfigAPI {
                 idle: 10000
             },
             storage: path.join(__dirname, './database.db'),
-            operatorsAliases: false
+            operatorsAliases: false,
+            secret_key: "Let's CBD"
         },
         view: {
             static: {

@@ -14,6 +14,7 @@ const configAPI = require('./config')
 const CookieAPI = require('./cookie')
 const pathAPI = require('./path')
 const GuardAPI = require('./guard')
+const helperAPI = require('./helper')
 
 function bootApp() {
 
@@ -31,5 +32,6 @@ module.exports = {
     CookieAPI,
     pathAPI,
     GuardAPI,
-    bootApp
+    bootApp,
+    helperAPI
 }
