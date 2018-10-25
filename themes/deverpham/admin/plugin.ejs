@@ -1,12 +1,24 @@
-<%-await include('template/header.ejs') %>
+<%- await include('template/header.ejs') %>
 <%- await tableView({
-    items: [],
-    name: 'test'
+
+    name: 'Plugin',
+    items: plugins,
+    fields: [
+        'name', 
+        'version', 
+        'description', 
+        'author', 
+        'active'],
+    addons: [{
+        name: 'action',
+        each: function(item) {
+            return 'gg';
+            return link({
+                name: 'thinh',
+                link: 'thinh'
+            })
+        }
+    }]
 }) %>
-<% plugins.map(plugin => {
- %>
- <%=plugin.name %>
-<%
-})
-%>
+
 <%-await include('template/footer.ejs') %>

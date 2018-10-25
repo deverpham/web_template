@@ -10,7 +10,6 @@ module.exports = function (req, res, next) {
     helpers.map(helper => {
         const name = path.basename(helper).replace('.ejs', '');
         const content = fs.readFileSync(helper).toString()
-        console.log(res.locals.hookAPI)
         res.locals[name] = function (data) {
             const dataMapLocals = Object.assign(res.locals, data)
             return ejs.compile(content, {
