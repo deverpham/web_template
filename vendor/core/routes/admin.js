@@ -5,7 +5,8 @@ const {
     CookieAPI,
     viewAPI,
     pathAPI,
-    GuardAPI
+    GuardAPI,
+    helperAPI
 } = require('../../api')
 const route = new RouterAPI('admin');
 const adminController = require('../controllers/admin.controller');
@@ -25,12 +26,16 @@ route.use(function (req, res, next) {
             const {
                 name
             } = modelAPI.Model;
-            if (name == 'user')
-                return {
-                    ...old,
-                    password: 'hashHere'
-                };
-            else return old
+            switch (name) {
+                case 'user':
+                    hash = helperAPI.encrypt('base64', old.password)
+                    return {
+                        ...old,
+                        password: hash
+                    };
+                default:
+                    return old
+            }
         }
     })
     next()
@@ -187,14 +192,12 @@ route.post('/:model/', async function (req, res) {
     let body = await hookAPI.do_filter('MODEL_BEFORE_SAVE_DATA', req.body, {
         modelAPI
     })
-    console.log(body)
     const record = new modelAPI.Model(body);
     record
         .save()
         .then(result => {
             res.redirect(req.originalUrl);
             return
-            res.success(result)
         })
         .catch(err => {
             console.log(err);
