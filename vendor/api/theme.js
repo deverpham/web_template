@@ -30,6 +30,9 @@ class ThemeAPI {
         const adminTemplateDir = this.getAdminTemplateDir();
         return path.join(adminTemplateDir, templatePath);
     }
+    getThemeHelperDir() {
+        return path.join(this.getThemeDir(), './helpers')
+    }
     setTheme(dir) {
         this.controller.emit('change', dir)
     }

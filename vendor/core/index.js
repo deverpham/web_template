@@ -10,6 +10,7 @@ const {
     responseMiddleware,
     hookAPI,
     bodyParserMiddleware,
+    viewHelperMiddleware,
     cookieMiddleware
 } = require('./middlewares');
 const plugins = require('./loadPlugin')
@@ -55,7 +56,8 @@ function applyMiddleware() {
         bodyParserMiddleware.json,
         bodyParserMiddleware.urlencoded,
         cookieMiddleware.cookieParser,
-        cookieMiddleware.middleware);
+        cookieMiddleware.middleware,
+        viewHelperMiddleware);
 }
 module.exports = {
     bootApp

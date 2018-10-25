@@ -1,2 +1,2 @@
 require('./admin')
-require('./test.router.js')
+require('./homepage')

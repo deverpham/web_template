@@ -97,7 +97,6 @@ class ModelAPI {
         const keyValids = keys.filter(key => {
             if (['createdAt', 'updatedAt'].indexOf(key) != -1) return false;
             const keyData = props[key];
-            console.log(keyData.type.toString())
             if (!isInputField(keyData.type)) return false;
             return true;
         })

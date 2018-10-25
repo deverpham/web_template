@@ -12,6 +12,7 @@ class RouterAPI {
         this.slash = slash;
         this.router = new Router()
         this.validates = {}
+        this.children = [];
         this.router['joi'] = joi
         this.router['listen'] = this.listen.bind(this)
         this.router['initValidate'] = this.initValidate.bind(this)
@@ -37,6 +38,7 @@ class RouterAPI {
         this.validates = validates;
         this.initValidate();
     }
+
     enableGuard(...guards) {
         guards.map(guard => {
             this.router.use(guard.listen())
@@ -44,13 +46,16 @@ class RouterAPI {
     }
 }
 class RouterChild extends RouterAPI {
-    constructor() {
-        const slash = '';
+    constructor(slash) {
+
+        slash = slash || '';
+        loggerAPI.debug(slash)
         super(slash)
     }
     listen() {
-        loggerAPI.debug(`listen Route Child`)
+        loggerAPI.debug(`listen Route Child`, this.slash)
         this.initValidate();
+        return this.router;
     }
 }
 module.exports = {

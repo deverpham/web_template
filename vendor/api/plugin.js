@@ -30,7 +30,6 @@ class PluginAPI {
         let plugins = glob.sync(rootPath + '/*/')
         plugins = plugins.map(plugin => new Plugin(plugin))
         plugins = plugins.map(plugin => plugin.getInfo())
-        console.log(plugins)
         return plugins
     }
 

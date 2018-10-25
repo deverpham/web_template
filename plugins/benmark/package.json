@@ -1,0 +1,8 @@
+{
+    "name": "deverpham",
+    "version": "1.0.0",
+    "description": "This Plugin Is Perfect",
+    "author": "Deverpham",
+    "active": true,
+    "main": "index.js"
+}
