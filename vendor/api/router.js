@@ -43,11 +43,12 @@ class RouterAPI {
     }
 }
 class RouterChild extends RouterAPI {
-    constructor(slash) {
+    constructor() {
+        const slash = '';
         super(slash)
     }
     listen() {
-        console.log(`listen Route Child`, this.slash)
+        console.log(`listen Route Child`)
         this.initValidate();
     }
 }
