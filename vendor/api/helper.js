@@ -1,5 +1,8 @@
 const crypto = require('crypto');
 const configAPI = require('./config')
+const {
+    parseFromFile
+} = require('./helpers/json')
 class HelperAPI {
     /**
      * @param {string} encode - Encode type example: 'base64', 'hex'
@@ -10,6 +13,11 @@ class HelperAPI {
         return crypto.createHmac('sha256', salt)
             .update(text) // Update with content need to be hashed
             .digest(encode);
+    }
+    json() {
+        return {
+            parseFromFile
+        }
     }
 }
 module.exports = new HelperAPI()

@@ -4,6 +4,7 @@ const pathAPI = require('./path');
 const path = require('path');
 const glob = require('glob');
 const fs = require('fs');
+const helperAPI = require('./helper')
 class Plugin {
     /**
      * Working with a plugin 
@@ -13,11 +14,12 @@ class Plugin {
         this.path = pathFolder;
     }
     getInfo() {
-        const packageJson = path.join(this.path, './package.json');
-        packageJson
-        //fs.readFileSync(packageJson)
-        if (!fs.existsSync(packageJson)) return null;
-        return JSON.parse(fs.readFileSync(packageJson))
+        const packageJson = path.join(this.path, './package.json')
+        const pkgInfo = helperAPI.json().parseFromFile(packageJson);
+        if (pkgInfo != null) {
+            pkgInfo['pathDir'] = this.path
+        }
+        return pkgInfo
     }
 }
 class PluginAPI {
@@ -28,6 +30,7 @@ class PluginAPI {
         let plugins = glob.sync(rootPath + '/*/')
         plugins = plugins.map(plugin => new Plugin(plugin))
         plugins = plugins.map(plugin => plugin.getInfo())
+        console.log(plugins)
         return plugins
     }
 

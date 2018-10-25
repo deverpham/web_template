@@ -44,7 +44,7 @@ route.configValidate({
 const AuthGuard = new GuardAPI({
     name: 'AuthGuard',
     callbackUrl: '/admin/login',
-    exceptRoute: ['/login', '/register'],
+    exceptRoute: ['/login', '/register', '/user'],
     canActivate: async function (req, res) {
         const cookieAPI = new CookieAPI(req)
         const userStored = cookieAPI.get('user');
