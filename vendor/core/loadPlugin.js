@@ -15,11 +15,21 @@ module.exports = (function () {
             const listPluginWillRun = []
             const cachewillbeRemove = []
             plugins.filter(async plugin => {
-                let indexFilePath = path.join(plugin, `./index.js`);
+                let packagePath = path.join(plugin, './package.json');
+                const pkgInfo = parseFromFile(packagePath);
+                if (pkgInfo == null)
+                    loggerAPI.warn(
+                        'PLUGIN',
+                        loggerAPI.color('red', path.basename(plugin).toUpperCase()),
+                        'missing package.json')
                 const disablePath = path.join(plugin, './disable.js');
-                if (fs.existsSync(disablePath)) return;
+                if (pkgInfo == null || !pkgInfo.active) return;
+                let indexFilePath = path.join(plugin, pkgInfo.main);
                 if (!fs.existsSync(indexFilePath)) {
-                    loggerAPI.warn('plugin: ' + path.basename(plugin).toUpperCase() + `: missing index.js file`)
+                    loggerAPI.warn(
+                        'PLUGIN',
+                        loggerAPI.color('red', path.basename(plugin).toUpperCase()),
+                        'missing index file')
                 } else {
                     let pluginModule = require(indexFilePath);
                     if ('init' in pluginModule) {

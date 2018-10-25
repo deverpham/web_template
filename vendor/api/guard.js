@@ -21,7 +21,6 @@ class SettingInterFace {
 class GuardAPIInTerFace {
 
     constructor(setting) {
-        console.log(setting.canActivate == true)
         this.name = setting.name;
         this.callbackUrl = setting.callbackUrl || '';
         this.exceptRoute = setting.exceptRoute || []

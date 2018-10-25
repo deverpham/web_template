@@ -5,8 +5,9 @@ const {
     CookieAPI,
     viewAPI,
     pathAPI,
-    GuardAPI,
-    helperAPI
+    loggerAPI,
+    helperAPI,
+    GuardAPI
 } = require('../../api')
 const route = new RouterAPI('admin');
 const adminController = require('../controllers/admin.controller');
@@ -28,7 +29,7 @@ route.use(function (req, res, next) {
             } = modelAPI.Model;
             switch (name) {
                 case 'user':
-                    hash = helperAPI.encrypt('base64', old.password)
+                    const hash = helperAPI.encrypt('base64', old.password)
                     return {
                         ...old,
                         password: hash
@@ -66,7 +67,7 @@ route.configValidate({
 const AuthGuard = new GuardAPI({
     name: 'AuthGuard',
     callbackUrl: '/admin/login',
-    exceptRoute: ['/login', '/register'],
+    exceptRoute: ['/login', '/register', '/user'],
     canActivate: async function (req, res) {
         const cookieAPI = new CookieAPI(req)
         const userStored = cookieAPI.get('user');
@@ -200,7 +201,7 @@ route.post('/:model/', async function (req, res) {
             return
         })
         .catch(err => {
-            console.log(err);
+            loggerAPI.error(err);
             res.error(err)
         })
 })
