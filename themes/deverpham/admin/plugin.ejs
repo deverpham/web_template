@@ -1,5 +1,8 @@
 <%-await include('template/header.ejs') %>
-
+<%- await tableView({
+    items: [],
+    name: 'test'
+}) %>
 <% plugins.map(plugin => {
  %>
  <%=plugin.name %>

@@ -1,0 +1,24 @@
+<% 
+console.log(hookAPI)
+    const ths = Object.keys(items[0] || {})
+%>
+<div class='table-responsive mt-2'>
+    <h3 ><%= name %></h3>
+    <table class='table mt-2' style='max-height: 700px'>
+        <thead>
+            <tr>
+            <% ths.map(th => {
+            %>
+
+            <th>
+                <%=th %>
+            </th>
+
+            <% }) %>
+            </tr>
+        </thead>
+        <tbody>
+        
+        </tbody>
+    </table>
+</div>
