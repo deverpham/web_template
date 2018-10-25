@@ -33,12 +33,7 @@ module.exports = {
     CookieAPI,
     pathAPI,
     GuardAPI,
-    <<
-    << << < HEAD
     pluginAPI,
-    bootApp ===
-    === =
-    bootApp,
-    helperAPI >>>
-    >>> > adfede56a4bf0de4449d69b955851bad075d613a
+    helperAPI,
+    bootApp
 }
