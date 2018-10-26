@@ -1,8 +1,8 @@
 {
-    "name": "deverpham",
+    "name": "plugin2",
     "version": "1.0.0",
     "description": "This Plugin Is Perfect",
     "author": "Deverpham",
-    "active": true,
+    "active": false,
     "main": "index.js"
 }

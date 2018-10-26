@@ -1,3 +1,3 @@
 require('./admin')
-require('./homepage')
+//require('./homepage')
 //require('./test.router')

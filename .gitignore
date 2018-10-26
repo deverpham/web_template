@@ -3,7 +3,6 @@ src/superTheme/dist
 node_modules
 yarn-error.log
 apikey
-nodemon.json
 *.zip
 *.db
 gulpfile.js
@@ -11,3 +10,4 @@ src
 .nyc_output
 coverage
 .vscode
+*.test

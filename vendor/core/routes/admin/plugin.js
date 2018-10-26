@@ -5,9 +5,9 @@ const {
 const pluginRoute = new RouterAPI()
 const joi = require('joi')
 pluginRoute.configValidate({
-    '/*/': {
+    '/:plugin*': {
         'GET': {
-            headers: {
+            query: {
                 action: joi.string().required()
             }
         }
@@ -22,7 +22,20 @@ pluginRoute.get('/', async function (req, res) {
     })
     res.end()
 })
-pluginRoute.get('/*/', async function (req, res) {
-    res.end();
+pluginRoute.get('/:plugin', async function (req, res) {
+    const name = req.params.plugin;
+    const action = req.query.action;
+    switch (action) {
+        case 'toggle':
+            {
+                pluginAPI.action(name, 'toggle')
+                res.end('done')
+                return;
+            }
+        default:
+            {
+                res.send(name)
+            }
+    }
 })
 module.exports = pluginRoute

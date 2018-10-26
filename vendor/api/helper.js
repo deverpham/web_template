@@ -1,8 +1,6 @@
 const crypto = require('crypto');
 const configAPI = require('./config')
-const {
-    parseFromFile
-} = require('./helpers/json')
+const jsonHelper = require('./helpers/json')
 class HelperAPI {
     /**
      * @param {string} encode - Encode type example: 'base64', 'hex'
@@ -16,7 +14,7 @@ class HelperAPI {
     }
     json() {
         return {
-            parseFromFile
+            ...jsonHelper
         }
     }
 }
