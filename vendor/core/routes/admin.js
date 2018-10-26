@@ -14,7 +14,8 @@ const adminController = require('../controllers/admin.controller');
 const {
     homeRoute,
     pluginRoute,
-    postTypeRoute
+    postTypeRoute,
+    attrManagerRoute
 } = require('./admin/')
 /**
  * set middlewares
@@ -86,6 +87,7 @@ route.enableGuard(AuthGuard)
 route.use('/', homeRoute)
 route.use('/plugin', pluginRoute)
 route.use('/post_type', postTypeRoute)
+route.use('/attribute-manager', attrManagerRoute)
 route.get('/login', async function (req, res) {
 
     const hookAPI = res.locals.hookAPI;

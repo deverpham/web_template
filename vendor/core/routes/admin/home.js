@@ -50,6 +50,10 @@ homeRoute.get('/', async (req, res) => {
         link: '/admin/plugin',
         name: 'Plugin'
     })
+    adminView.addMenuItem(hookAPI, {
+        link: '/admin/attribute-manager',
+        name: 'Attribute Manager'
+    })
 
     await res.renderStream('admin/template/header.ejs')
     await res.renderStream('admin/home.ejs')
