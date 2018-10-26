@@ -29,7 +29,19 @@ pluginRoute.get('/:plugin', async function (req, res) {
         case 'toggle':
             {
                 pluginAPI.action(name, 'toggle')
-                res.end('done')
+                res.success('done')
+                return;
+            }
+        case 'active':
+            {
+                pluginAPI.action(name, 'active')
+                res.success('done')
+                return;
+            }
+        case 'disable':
+            {
+                pluginAPI.action(name, 'disable')
+                res.success('done')
                 return;
             }
         default:

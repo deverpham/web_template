@@ -84,10 +84,8 @@ class PluginAPI {
             },
             limit: 1
         })
-        console.log(pluginInfo)
         if (pluginInfo.length > 0) {
             const plugin = new Plugin(pluginInfo[0]);
-            console.log(type)
             return plugin.action(type)
         }
         return undefined

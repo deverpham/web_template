@@ -1,8 +1,8 @@
 {
-    "name": "plugin1",
+    "name": "admin custom",
     "version": "1.0.0",
     "description": "This Plugin Is Perfect",
     "author": "Deverpham",
-    "active": true,
+    "active": false,
     "main": "app.js"
 }

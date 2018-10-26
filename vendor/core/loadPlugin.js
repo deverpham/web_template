@@ -33,11 +33,8 @@ module.exports = (function () {
                     let pluginModule = require(indexFilePath);
                     if ('init' in pluginModule) {
                         let mask = pluginModule.init
-                        pluginModule.init = function (req, res) {
-                            return new Promise((resolve) => {
-                                mask.done = resolve
-                                mask.apply(mask, arguments);
-                            })
+                        pluginModule.init = async function (req, res) {
+                            return await mask.apply(mask, arguments);
                         }
                         listPluginWillRun.push(pluginModule)
                         cachewillbeRemove.push(indexFilePath);
