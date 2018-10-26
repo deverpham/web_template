@@ -81,11 +81,12 @@ class ModelAPI {
         return ejs.renderFile(templatePath, {
             dataFields,
             hookAPI,
+            tableName: this.Model.name,
             getDOM: getDom,
             getDOMS: getDomsHTML,
         }, {
-            async: true
-        })
+                async: true
+            })
 
     }
     getFieldsName() {

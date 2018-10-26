@@ -1,4 +1,7 @@
-const UserModel = require('./model/user')
+const {
+    UserModel,
+    PostTypeModel
+} = require('./model')
 const {
     DB
 } = require('./sequelize')
@@ -10,5 +13,6 @@ function loadDatabase() {
 }
 module.exports = {
     UserModel,
-    loadDatabase
+    PostTypeModel,
+    loadDatabase,
 }

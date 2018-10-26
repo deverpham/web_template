@@ -1,6 +1,7 @@
 const {
     RouterAPI,
     CookieAPI,
+    ModelAPI,
     viewAPI
 } = require('../../../api')
 const homeRoute = new RouterAPI();
@@ -15,11 +16,36 @@ homeRoute.get('/', async (req, res) => {
         }
     })
     const adminView = viewAPI.admin;
+    const table = await ModelAPI.getTables();
+    function loadTableData() {
+        return new Promise(resolve => {
+            Promise.all(table.map(async table => {
+                const tableName = table.Model.name;
+                if (tableName == 'post_type' || tableName == 'attribute_type') {
+                    const result = await table
+                        .Model.findAll({
+                            where: {},
+                            raw: true
+                        })
 
-    adminView.addMenuItem(hookAPI, {
-        link: '/admin/user',
-        name: 'User'
-    })
+                    console.log(result)
+                    result.map(record =>
+                        adminView.addMenuItem(hookAPI, {
+                            link: `/admin/${tableName}/${record.slug}`,
+                            name: record.name
+                        }))
+
+                }
+                return adminView.addMenuItem(hookAPI, {
+                    link: `/admin/${tableName}`,
+                    name: tableName.replace(/\_/g, ' ')
+                })
+            })).then(() => {
+                resolve()
+            })
+        })
+    }
+    await loadTableData()
     adminView.addMenuItem(hookAPI, {
         link: '/admin/plugin',
         name: 'Plugin'
