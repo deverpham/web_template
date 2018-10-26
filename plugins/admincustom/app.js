@@ -4,6 +4,6 @@ const {
 } = require('../../vendor')
 module.exports = {
     init: function (req, res) {
-        console.log('gg')
+
     }
 }
