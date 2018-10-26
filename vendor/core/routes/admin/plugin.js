@@ -3,6 +3,16 @@ const {
     pluginAPI
 } = require('../../../api')
 const pluginRoute = new RouterAPI()
+const joi = require('joi')
+pluginRoute.configValidate({
+    '/*/': {
+        'GET': {
+            headers: {
+                action: joi.string().required()
+            }
+        }
+    }
+})
 pluginRoute.get('/', async function (req, res) {
 
     const plugins = await pluginAPI.getAll();

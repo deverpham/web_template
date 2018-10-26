@@ -23,8 +23,6 @@ const penRoute = new RouterAPI();
 penRoute.get('/', (req, res) => {
     res.send('pens product')
 })
-productsRoute.use('/pen', (req, res, next) => {
-    next()
-}, penRoute)
+productsRoute.use('/pen', penRoute)
 
 productsRoute.listen()

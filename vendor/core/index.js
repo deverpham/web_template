@@ -29,6 +29,7 @@ async function bootApp() {
     })
     LoadStaticFolder();
     loadRoutes();
+    errorHanding()
 }
 
 function loadTheme() {
@@ -42,6 +43,12 @@ function LoadStaticFolder() {
 
 function loadRoutes() {
     require('./routes')
+}
+
+function errorHanding() {
+    app.use(function (err, req, res, next) {
+        res.error(err);
+    });
 }
 
 function loadPlugin() {
