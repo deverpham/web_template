@@ -16,6 +16,7 @@ const pathAPI = require('./path')
 const GuardAPI = require('./guard')
 const pluginAPI = require('./plugin')
 const helperAPI = require('./helper')
+const templateAPI = require('./template');
 
 function bootApp() {
 
@@ -25,6 +26,7 @@ module.exports = {
     loggerAPI,
     RouterAPI,
     RouterChild,
+    templateAPI,
     HookAPI,
     viewAPI,
     themeAPI,

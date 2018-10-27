@@ -1,16 +1,8 @@
 const Sequelize = require('sequelize');
-const path = require('path');
-const DB = new Sequelize({
-    host: 'localhost',
-    dialect: 'sqlite',
-    logging: false,
-    pool: {
-        max: 10000,
-        min: 0,
-        acquire: 30000,
-        idle: 10000
-    },
-    storage: path.join(__dirname, './database.db'),
-    operatorsAliases: false
-});
-module.exports = { DB, Sequelize };
+const configAPI = require('../../api/config');
+const config = configAPI.database()
+const DB = new Sequelize(config);
+module.exports = {
+    DB,
+    Sequelize
+};

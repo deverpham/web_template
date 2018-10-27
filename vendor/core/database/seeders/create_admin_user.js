@@ -1,4 +1,7 @@
-const User = require('./user')
+const User = require('../model/user')
+const {
+    DB
+} = require('../sequelize')
 const {
     helperAPI
 } = require('../../../api')
@@ -8,4 +11,7 @@ const user = User.build({
     password: hash
 })
 user.save()
-    .then(console.log)
+    .then(() => {
+        console.log('created');
+        process.exit();
+    })

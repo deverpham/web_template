@@ -30,6 +30,8 @@ const User = DB.define('user', {
         type: Sequelize.STRING,
         defaultValue: 'member'
     }
+}, {
+    timestamps: false
 })
 User.prototype.checkCredentials = function (isHash = false) {
     var {

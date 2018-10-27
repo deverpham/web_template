@@ -2,6 +2,8 @@ const {
     RouterAPI,
     CookieAPI,
     ModelAPI,
+    pathAPI,
+    themeAPI,
     viewAPI
 } = require('../../../api');
 const attrManagerRoute = new RouterAPI();
@@ -11,7 +13,6 @@ attrManagerRoute.get('/', async (req, res) => {
         where: {},
         raw: true
     })
-    console.log(posts);
     const hookAPI = res.locals.hookAPI;
     hookAPI.add_filter('ADMIN_PAGE_TITLE', {
         callback: async function () {
@@ -19,12 +20,31 @@ attrManagerRoute.get('/', async (req, res) => {
         }
     })
     await res.renderStream('admin/template/header.ejs')
-    await res.renderStream('admin/attrmanager.ejs', { posts })
+    await res.renderStream('admin/attrmanager.ejs', {
+        posts
+    })
     await res.renderStream('admin/template/footer.ejs')
     res.end()
 })
-attrManagerRoute.get('/:postname', async (req, res) => {
-    const postName = req.params.postname;
-    res.end(postName);
+attrManagerRoute.get('/:post_type_id', async (req, res) => {
+    const hookAPI = res.locals.hookAPI;
+    const attrModel = new ModelAPI('attribute');
+    const fields = attrModel.getInputFields();
+    const templateFile = themeAPI.getAdminTemplatePath('model/add_form.ejs');
+    const attrForm = await attrModel.getFormTemplate(fields, templateFile, {
+        actionUrl: `/admin/post_type/${req.params.post_type_id}/add_field`
+    })
+    const posts = [];
+    console.log('go');
+    const attrs = await ModelAPI.getAttrPostType(req.params.post_type_id)
+    console.log(attrs)
+    await res.renderStream('admin/template/header.ejs')
+    await res.renderStream('admin/attrmanager-detail.single.ejs', {
+        attrForm,
+        posts,
+        attrs
+    })
+    await res.renderStream('admin/template/footer.ejs')
+    res.end();
 })
 module.exports = attrManagerRoute

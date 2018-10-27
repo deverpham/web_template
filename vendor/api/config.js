@@ -7,15 +7,17 @@ class ConfigAPI {
         },
         database: {
             host: 'localhost',
-            dialect: 'sqlite',
+            dialect: 'mysql',
             logging: false,
             pool: {
                 max: 10000,
                 min: 0,
                 acquire: 30000,
-                idle: 10000
+                idle: 1
             },
-            storage: path.join(__dirname, './database.db'),
+            username: "root",
+            password: "root",
+            database: "supercms",
             operatorsAliases: false,
             secret_key: "Let's CBD"
         },

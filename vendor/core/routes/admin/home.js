@@ -17,6 +17,7 @@ homeRoute.get('/', async (req, res) => {
     })
     const adminView = viewAPI.admin;
     const table = await ModelAPI.getTables();
+
     function loadTableData() {
         return new Promise(resolve => {
             Promise.all(table.map(async table => {
@@ -27,8 +28,6 @@ homeRoute.get('/', async (req, res) => {
                             where: {},
                             raw: true
                         })
-
-                    console.log(result)
                     result.map(record =>
                         adminView.addMenuItem(hookAPI, {
                             link: `/admin/${tableName}/${record.slug}`,

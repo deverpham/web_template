@@ -1,5 +1,6 @@
 const {
-    themeAPI
+    themeAPI,
+    templateAPI
 } = require('../../api')
 const ejs = require('ejs');
 const glob = require('glob');
@@ -14,6 +15,7 @@ module.exports = function (req, res, next) {
             const dataMapLocals = Object.assign(res.locals, data)
             return ejs.compile(content)(dataMapLocals)
         }
+        templateAPI.addTemplate(name, res.locals[name])
 
     })
     next();

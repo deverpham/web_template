@@ -15,12 +15,16 @@ class Logger {
         const mark = new Error();
         pe.render(mark)
         if (message.length == 1 && typeof message === 'object') return cpLog(this.color('white', 'debug: '), message[0])
-        cpLog('debug: ', chalk.white(...message))
+        return cpLog('debug: ', chalk.white(...message))
     }
     log(...message) {
 
         const mark = new Error();
         pe.render(mark)
+        if (!this) {
+            const logger = new Logger();
+            return logger.debug(...message);
+        }
         return this.debug(...message)
     }
     warn(...message) {
