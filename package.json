@@ -2,7 +2,7 @@
   "name": "template",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "app/app.js",
   "dependencies": {
     "babel-core": "^6.26.3",
     "babel-eslint": "^10.0.1",
@@ -48,24 +48,24 @@
     "node-sass": "^4.9.4",
     "node-usage": "0.0.3",
     "nyc": "^13.1.0",
-    "performance-now": "^2.1.0",
-    "pkg": "^4.3.4",
-    "pretty-error": "^2.1.1",
-    "pump": "^3.0.0",
     "random-id": "^0.0.2",
     "randomstring": "^1.1.5",
-    "sequelize": "^4.37.6",
-    "sqlite3": "^4.0.0",
-    "usage": "^0.7.1"
+    "sequelize": "^4.37.6"
   },
   "scripts": {
     "start": "node app.js",
-    "start-dev": "nodemon app.js --config nodemon.json",
+    "start-dev": "nodemon app/app.js --config nodemon.json",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "deverpham",
   "license": "ISC",
   "devDependencies": {
+    "pkg": "^4.3.4",
+    "pretty-error": "^2.1.1",
+    "performance-now": "^2.1.0",
+    "pump": "^3.0.0",
+    "sqlite3": "^4.0.0",
+    "usage": "^0.7.1",
     "exec-sh": "^0.3.2",
     "gulp-run-command": "^0.0.9",
     "mocha": "^5.2.0",
