@@ -1,1 +1,1 @@
-import * from './@types/main'
+/// <reference path="@types" />

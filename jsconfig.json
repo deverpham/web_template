@@ -3,7 +3,6 @@
         "target": "es6",
     },
     "files": [
-        "./vendor/**/*.*",
-        "./@types/**/*.d.ts"
+        "./typing.d.ts"
     ]
 }
