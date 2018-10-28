@@ -1,6 +1,6 @@
 const {
     app
-} = require('../express')
+} = require('../../express')
 const {
     EventEmitter
 } = require('events');

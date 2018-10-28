@@ -1,7 +1,9 @@
 const Sequelize = require('sequelize');
-const configAPI = require('../../api/config');
-const config = configAPI.database()
-const DB = new Sequelize(config);
+const {
+    store
+} = require('../api')
+const config = store.config().get();
+const DB = new Sequelize(config.database);
 module.exports = {
     DB,
     Sequelize

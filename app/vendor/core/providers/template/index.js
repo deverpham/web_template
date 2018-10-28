@@ -1,9 +1,3 @@
-const {
-    app
-} = require('../../express');
-const {
-    getThemeDir
-} = require('../theme');
 const arraytoDOM = require('./get_dom_with_array');
 class TemplateAPI {
     constructor() {

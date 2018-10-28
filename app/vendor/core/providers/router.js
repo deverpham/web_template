@@ -4,7 +4,7 @@ const {
 const loggerAPI = require('./logger')
 const {
     app
-} = require('../express')
+} = require('../../express')
 const validate = require('express-validation');
 const joi = require('joi')
 class RouterAPI {

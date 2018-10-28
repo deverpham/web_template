@@ -1,7 +1,9 @@
+/*
 const {
     UserModel,
     PostTypeModel
 } = require('./model')
+*/
 const {
     DB
 } = require('./sequelize')
@@ -12,7 +14,9 @@ function loadDatabase() {
     })
 }
 module.exports = {
+    /*
     UserModel,
     PostTypeModel,
+    */
     loadDatabase,
 }

@@ -1,7 +1,7 @@
 const {
     DB,
     Sequelize
-} = require('../core/database/sequelize');
+} = require('../database/sequelize');
 const ejs = require('ejs')
 
 

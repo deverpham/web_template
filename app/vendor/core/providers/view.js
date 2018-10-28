@@ -1,6 +1,6 @@
 const {
     app
-} = require('../express')
+} = require('../../express')
 const adminAPI = require('./view/admin')
 const express = require('express');
 class ViewAPI {
