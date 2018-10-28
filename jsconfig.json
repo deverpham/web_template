@@ -1,15 +1,9 @@
 {
     "compilerOptions": {
         "target": "es6",
-        "checkJs": true
     },
-    "exclude": [
-        "@types",
-        "coverage",
-        "themes",
-        ".nyc_output",
-        "*.json",
-        "src",
-        "static"
+    "files": [
+        "./vendor/**/*.*",
+        "./@types/**/*.d.ts"
     ]
 }
