@@ -7,6 +7,7 @@ const {
 const {
     loggerAPI
 } = require('../api')
+
 module.exports = (function () {
     const pluginFolder = path.join(__dirname, '../../plugins/*/');
     return {

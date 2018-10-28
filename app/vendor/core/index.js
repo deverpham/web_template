@@ -18,6 +18,10 @@ const path = require('path');
 const {
     loadDatabase
 } = require('./database')
+
+/**
+ * Boot The APP
+ */
 async function bootApp() {
     loadDatabase();
     loadTheme();
@@ -32,29 +36,46 @@ async function bootApp() {
     errorHanding()
 }
 
+/**
+ * Set Default Theme
+ */
 function loadTheme() {
     themeAPI.setTheme(path.join(__dirname, '../../themes/deverpham'));
 }
-
+/**
+ * make the static public patg
+ */
 function LoadStaticFolder() {
     const staticPath = configAPI.getStaticPath();
     viewAPI.setStatic(staticPath.route, staticPath.path)
 }
 
+/**
+ * Load all router in folder ./routes
+ */
 function loadRoutes() {
     require('./routes')
 }
 
+/**
+ * Hadding Error
+ */
 function errorHanding() {
     app.use(function (err, req, res, next) {
         res.error(err);
     });
 }
 
+/**
+ * add plugins to the app
+ */
 function loadPlugin() {
     app.use(plugins.load)
 }
 
+/**
+ * load built-in middleware
+ */
 function applyMiddleware() {
     app.use(
 
@@ -66,6 +87,7 @@ function applyMiddleware() {
         cookieMiddleware.middleware,
         viewHelperMiddleware);
 }
+
 module.exports = {
     bootApp
 }
