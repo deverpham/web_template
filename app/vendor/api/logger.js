@@ -5,8 +5,8 @@ const path = require('path');
 pe.filter(function (traceLine, lineNumber) {
     if (lineNumber == 1 && true &&
         traceLine
-        .shortenedAddr
-        .indexOf(path.join(__filename)) == -1)
+            .shortenedAddr
+            .indexOf(path.join(__filename)) == -1)
         cpLog(chalk.gray('log at:', traceLine.shortenedAddr))
 })
 class Logger {
