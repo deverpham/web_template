@@ -1,13 +1,10 @@
-const {
-    themeAPI,
-    templateAPI
-} = require('../../api')
+const controller = require('../controllers')
 const ejs = require('ejs');
 const glob = require('glob');
 const fs = require('fs');
 const path = require('path');
 module.exports = function (req, res, next) {
-    const helpers = glob.sync(themeAPI.getThemeHelperDir() + '/*.ejs');
+    const helpers = glob.sync(controller.theme.helper().dir() + '/*.ejs');
     helpers.map(helper => {
         const name = path.basename(helper).replace('.ejs', '');
         const content = fs.readFileSync(helper).toString()
@@ -15,8 +12,7 @@ module.exports = function (req, res, next) {
             const dataMapLocals = Object.assign(res.locals, data)
             return ejs.compile(content)(dataMapLocals)
         }
-        templateAPI.addTemplate(name, res.locals[name])
-
+        controller.view.template.add(name, res.locals[name])
     })
     next();
 }

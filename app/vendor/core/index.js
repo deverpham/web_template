@@ -27,10 +27,6 @@ async function bootApp() {
     loadTheme();
     applyMiddleware();
     loadPlugin();
-    app.use(async function (req, res, next) {
-        await res.locals.hookAPI.do_action('ON_STARTING_REQUEST');
-        next();
-    })
     LoadStaticFolder();
     loadRoutes();
     errorHanding()

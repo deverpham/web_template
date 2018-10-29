@@ -2,9 +2,6 @@ const {
     DB,
     Sequelize
 } = require('../sequelize')
-const {
-    helperAPI
-} = require('../../../api')
 
 const PostType = DB.define('post_type', {
     id: {

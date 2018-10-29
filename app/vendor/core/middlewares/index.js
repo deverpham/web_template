@@ -1,11 +1,11 @@
 const responseMiddleware = require('./response')
-const hookAPI = require('./hookapi')
+const hook = require('./hookapi')
 const bodyParserMiddleware = require('./bodyparser')
 const CookieMiddleware = require('./cookie');
 const viewHelperMiddleware = require('./viewhelper');
 module.exports = {
     responseMiddleware,
-    hookAPI,
+    hook,
     viewHelperMiddleware,
     bodyParserMiddleware,
     cookieMiddleware: CookieMiddleware()

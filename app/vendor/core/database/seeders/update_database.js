@@ -1,7 +1,17 @@
+const config = require('../../../../environments');
+const {
+    store
+} = require('../../api')
+store.config().set(config);
 const {
     DB
 } = require('../sequelize')
 require('../model')
+var session = require('express-session');
+var SequelizeStore = require('connect-session-sequelize')(session.Store);
+const sessionStore = new SequelizeStore({
+    db: DB
+})
 const {
     createConnection
 } = require('mysql2')

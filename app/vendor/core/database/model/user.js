@@ -3,8 +3,11 @@ const {
     Sequelize
 } = require('../sequelize')
 const {
-    helperAPI
-} = require('../../../api')
+    store
+} = require('../../api')
+const {
+    helper
+} = require('../../providers')
 const User = DB.define('user', {
     id: {
         type: Sequelize.INTEGER,
@@ -39,7 +42,7 @@ User.prototype.checkCredentials = function (isHash = false) {
         password
     } = this.dataValues
     if (!isHash) {
-        const hash = helperAPI.encrypt('base64', password)
+        const hash = helper.encrypt(store.config().get().database.secret_key, password)
         password = hash
     }
     return User.findOne({

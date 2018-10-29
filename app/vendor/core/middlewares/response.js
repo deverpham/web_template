@@ -1,15 +1,13 @@
 const ejs = require('ejs');
-
 const path = require('path');
 const {
-    app
-} = require('../../express')
-
+    theme
+} = require('../controllers');
 module.exports = function (req, res, next) {
     res.renderStream = function (filePath, payload = {}) {
         return new Promise(resolve => {
-            const viewPath = app.get('views');
-            const fileRealPath = path.join(viewPath, filePath)
+            const themeDir = theme.dir();
+            const fileRealPath = path.join(themeDir, filePath)
             ejs.renderFile(fileRealPath, {
                     ...payload,
                     ...res.locals

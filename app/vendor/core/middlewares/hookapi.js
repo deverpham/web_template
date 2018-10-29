@@ -1,6 +1,8 @@
-const { HookAPI } = require('../../api')
+const {
+    Hook
+} = require('../providers')
 module.exports = async function (req, res, next) {
-    const hookAPI = new HookAPI();
-    res.locals.hookAPI = hookAPI;
+    const hook = new Hook;
+    res.locals.hook = hook;
     next();
 }

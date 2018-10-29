@@ -2,9 +2,6 @@ const {
     DB,
     Sequelize
 } = require('../sequelize')
-const {
-    helperAPI
-} = require('../../../api')
 const AttributeModel = DB.define('attribute', {
     id: {
         type: Sequelize.INTEGER,
