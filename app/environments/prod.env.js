@@ -28,6 +28,10 @@ module.exports = {
         }
     },
     plugin: {
-        rootFolder: path.join(__dirname, '../plugins')
+        path: path.join(__dirname, '../plugins')
+    },
+    theme: {
+        default: 'default',
+        path: path.join(__dirname, '../themes')
     }
 }

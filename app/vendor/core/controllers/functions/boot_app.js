@@ -17,9 +17,9 @@ async function bootApp() {
     cl_store();
     console.info("loading database");
     await loadDB();
-    console.success("db:completed");
+    console.info("db:completed");
     createHandler();
-    console.success("hanlder:registered");
+    console.info("hanlder:registered");
     middleware.load();
     resource.load();
     plugin.load();

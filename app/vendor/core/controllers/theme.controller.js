@@ -29,7 +29,7 @@ class Theme {
         }
     }
     setTheme(dir) {
-        console.success('theme: ', dir)
+        console.info('theme: ', dir)
         this.controller.emit('change', dir)
     }
     changeTheme(dir) {

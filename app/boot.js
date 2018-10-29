@@ -14,6 +14,7 @@ switch (config.name) {
         }
     default:
         {
+            prodLog();
             app.boot();
         }
 }
@@ -25,6 +26,10 @@ switch (config.name) {
 function overrideConsoleLog() {
     global.cpLog = console.log;
     global.console = logger;
+}
+
+function prodLog() {
+    console['sucess'] = console.log;
 }
 module.exports = {
     app

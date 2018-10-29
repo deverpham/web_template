@@ -9,7 +9,7 @@ class Resources {
             route
         } = store.config().get().view.static;
         HANDLER.ctrl.use(route, express.static(path)); /* eslint-disable-line no-undef */
-        console.success('resource->load:path', path);
+        console.info('resource->load:path', path);
     }
 }
 const resources = new Resources();

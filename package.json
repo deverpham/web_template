@@ -61,6 +61,7 @@
   "scripts": {
     "start": "npm run start-dev",
     "start-dev": "nodemon app/boot.js --config nodemon.json",
+    "start-prod": "NODE_ENV=prod node app/boot.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
