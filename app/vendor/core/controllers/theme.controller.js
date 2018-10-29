@@ -1,5 +1,9 @@
 /* eslint no-undef:1 */
 const path = require('path');
+const fs = require('fs');
+const {
+    helper
+} = require('../providers')
 const {
     EventEmitter
 } = require('events');
@@ -10,6 +14,19 @@ class Theme {
     constructor() {
         this.controller = new EventEmitter();
         this.controller.on('change', this.changeTheme);
+    }
+    _run() {
+        const pkgInfo = helper.json().parseFromFile(this.dir() + '/package.json');
+        if (pkgInfo == null) {
+            console.error('theme:missing package.json:', this.dir())
+        } else {
+            const funcF = path.join(this.dir(), pkgInfo.main);
+            if (fs.existsSync(funcF)) {
+                require(funcF)
+            } else {
+                console.error('theme:missing func file:', this.dir())
+            }
+        }
     }
     setTheme(dir) {
         console.success('theme: ', dir)
@@ -45,6 +62,7 @@ class Theme {
             theme
         } = store.config().get();
         this.setTheme(theme.path + '/' + theme.default);
+        this._run();
     }
 }
 const theme = new Theme();

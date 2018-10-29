@@ -1,4 +1,7 @@
 {
-    "name": "default",
-    "active": true
+    "name": "core-theme",
+    "version": "1.0.0",
+    "description": "This Theme",
+    "author": "Deverpham",
+    "main": "functions/index.js"
 }

@@ -74,7 +74,6 @@ function loadPlugin() {
  */
 function applyMiddleware() {
     app.use(
-
         hookAPI,
         responseMiddleware,
         bodyParserMiddleware.json,

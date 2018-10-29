@@ -4,6 +4,7 @@ const middleware = require('../middleware.controller')
 const plugin = require('../plugin.controller')
 const resource = require('../resources.controller')
 const view = require('../view.controller')
+const routes = require('../routes.controller')
 const {
     store
 } = require('../../api')
@@ -16,14 +17,16 @@ async function bootApp() {
     cl_store();
     console.info("loading database")
     await loadDB()
-    console.success('completed:db');
+    console.success('db:completed');
     createHandler();
-    console.success('registered:hanlder')
-    theme.load();
+    console.success('hanlder:registered')
+
     middleware.load();
     resource.load();
     plugin.load();
     view.load();
+    theme.load();
+    routes.load();
     await HANDLER.listen(); // eslint-disable-line no-undef
 }
 

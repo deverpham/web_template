@@ -8,7 +8,7 @@ const {
     loggerAPI,
     helperAPI,
     GuardAPI
-} = require('../../api')
+} = require('../providers')
 const route = new RouterAPI('/admin');
 const adminController = require('../controllers/admin.controller');
 const {

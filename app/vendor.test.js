@@ -26,3 +26,6 @@ function overrideConsoleLog() {
     global.cpLog = console.log;
     global.console = logger;
 }
+module.exports = {
+    app
+}

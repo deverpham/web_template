@@ -1,4 +1,5 @@
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
+
 module.exports = {
     json: bodyParser.json(),
     urlencoded: bodyParser.urlencoded({

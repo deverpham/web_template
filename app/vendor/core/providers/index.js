@@ -4,6 +4,9 @@ const Hook = require('./hook.provider')
 const {
     WebHandler
 } = require('./handler.provider');
+const {
+    Router
+} = require('./router.provider')
 /*
 const {
     RouterAPI,
@@ -26,6 +29,7 @@ module.exports = {
     WebHandler,
     helper,
     Hook,
+    Router,
     /*
     RouterAPI,
     RouterChild,

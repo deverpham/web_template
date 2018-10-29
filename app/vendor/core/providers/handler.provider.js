@@ -14,7 +14,7 @@ class WebHandler extends Handler {
     listen() {
         return new Promise(resolve => {
             this.ctrl.listen(this.opts.port, () => {
-                console.success('web handler listening port:', this.opts.port)
+                console.success('port:', this.opts.port)
                 resolve();
             })
         })
