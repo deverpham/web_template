@@ -1,7 +1,3 @@
-const {
-    DB,
-    Sequelize
-} = require('../database/sequelize');
 const ejs = require('ejs')
 
 
@@ -71,7 +67,7 @@ function getDomsHTML(fields) {
     fields.map(field => html += getDom(field))
     return html;
 }
-class ModelAPI {
+class Model {
     constructor(name) {
         this.Model = eval(` (DB.models['${name}'])`)
     }
@@ -127,12 +123,12 @@ class ModelAPI {
         })
     }
 }
-ModelAPI.getTables = function () {
+Model.getTables = function () {
     const modelsName = Object.keys(DB.models);
-    const models = modelsName.map(name => new ModelAPI(name))
+    const models = modelsName.map(name => new Model(name))
     return models;
 }
-ModelAPI.getAttrPostType = async function (post_type_id) {
+Model.getAttrPostType = async function (post_type_id) {
     const queryString = `
     SELECT attribute_id as attr_id, attr.name as attr_name, type as attr_type 
     FROM attributes as attr
@@ -145,10 +141,10 @@ ModelAPI.getAttrPostType = async function (post_type_id) {
         .spread((data, meta) => (data, meta))
     return results;
 }
-ModelAPI.addAttrPostType = async function (post_type_id, name) {
+Model.addAttrPostType = async function (post_type_id, name) {
     return new Promise((resolve, reject) => {
-        const AttrModel = new ModelAPI('attribute');
-        const PostTypeModel = new ModelAPI('post_type');
+        const AttrModel = new Model('attribute');
+        const PostTypeModel = new Model('post_type');
         Promise.all([
             AttrModel.findOneBy({
                 name
@@ -167,7 +163,7 @@ ModelAPI.addAttrPostType = async function (post_type_id, name) {
                     attribute = await AttrModel.native().create({
                         name
                     })
-                const AttrPostTypeModel = new ModelAPI('attribute_post_type');
+                const AttrPostTypeModel = new Model('attribute_post_type');
 
                 const totals = await AttrPostTypeModel.native().findAll({
                     where: {
@@ -192,4 +188,4 @@ ModelAPI.addAttrPostType = async function (post_type_id, name) {
         })
     })
 }
-module.exports = ModelAPI;
+module.exports = Model;

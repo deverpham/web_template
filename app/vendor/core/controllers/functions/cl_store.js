@@ -11,5 +11,6 @@ const {
 function cl_store() {
     console.info('sharing memory by collect stores')
     store.storage().set('DB', DB);
+
 }
 module.exports = cl_store

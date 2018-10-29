@@ -1,3 +1,12 @@
-<%- await include('template/header.ejs') -%>
-<%- await hookAPI.do_action('ADMIN_LOGIN_FORM') %>
-<%- await include('template/footer.ejs') -%>
+<form action="" method="post" class="w-50 m-auto">
+  <legend>Login Form</legend>
+  <div class="form-group">
+    <label For="">username</label>
+    <input type="text" class="form-control" />
+  </div>
+  <div class="form-group">
+    <label For="">password</label>
+    <input type="text" class="form-control" />
+  </div>
+  <button class="btn btn-success">Login</button>
+</form>

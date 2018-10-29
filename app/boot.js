@@ -1,28 +1,21 @@
-const {
-    app,
-    loggerAPI
-} = require('./vendor');
 const config = require('./environments');
+const {
+    App
+} = require('./vendor/server');
+const app = new App(config);
+const [provider] = [app.provider()];
+const logger = new provider.Logger();
 switch (config.name) {
-    case 'dev': {
-        overrideConsoleLog();
-        app.startServer({
-            config,
-            callback: function () {
-                console.log('server is running', config.server.port)
-            }
-        })
-        break;
-    }
-    default: {
-        global.cpLog = () => { }
-        app.startServer({
-            config,
-            callback: function () {
-                console.log('server is running', config.server.port)
-            }
-        })
-    }
+    case 'dev':
+        {
+            overrideConsoleLog();
+            app.boot();
+            break;
+        }
+    default:
+        {
+            app.boot();
+        }
 }
 
 /**
@@ -30,7 +23,9 @@ switch (config.name) {
  * @description Using for debug purpose
  */
 function overrideConsoleLog() {
-    const copyObject = global.console
-    global.console = loggerAPI
-    global.cpLog = copyObject.log
+    global.cpLog = console.log;
+    global.console = logger;
+}
+module.exports = {
+    app
 }

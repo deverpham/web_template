@@ -1,6 +1,7 @@
 const Logger = require('./logger.provider');
 const helper = require('./helper.provider');
 const Hook = require('./hook.provider')
+const Model = require('./model.provider')
 const {
     WebHandler
 } = require('./handler.provider');
@@ -30,6 +31,7 @@ module.exports = {
     helper,
     Hook,
     Router,
+    Model
     /*
     RouterAPI,
     RouterChild,
