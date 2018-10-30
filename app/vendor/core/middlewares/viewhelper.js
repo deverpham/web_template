@@ -1,4 +1,5 @@
 const controller = require('../controllers')
+const React = require('react');
 const ejs = require('ejs');
 const glob = require('glob');
 const fs = require('fs');
@@ -24,14 +25,19 @@ function ejsRender(req, res, next) {
 }
 
 function react(req, res, next) {
+
     const helpers = glob.sync(controller.theme.helper().dir() + '/*.jsx');
     helpers.map(async helper => {
         const name = path.basename(helper).replace('.jsx', '');
         res.locals[name] = async function (data) {
-            const dataMapLocals = Object.assign(res.locals, data, {
-                ejs
-            })
-            return await reactEngine.render(helper, dataMapLocals)
+            const dataMapLocals = Object.assign(res.locals, data, {})
+            const [result, scriptString] = await reactEngine.render(helper, dataMapLocals);
+            controller.view.script().add(res, {
+                type: 'text',
+                content: scriptString
+            }, true);
+            //console.log(result);
+            return result
         }
     })
     next();

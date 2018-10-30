@@ -5,9 +5,29 @@ class View {
     }
     script() {
         return {
-            add: (res, script) => {
+            add: (res, script, footer = false) => {
                 const hook = res.locals.hook;
-                return hook.add_action("RESPONSE_HEAD", {
+                if (!footer)
+                    return hook.add_action("RESPONSE_HEAD", {
+                        callback: async function (oldScript) {
+                            oldScript = oldScript || "";
+                            switch (script.type) {
+                                case "link":
+                                    {
+                                        return oldScript + `<script src = ${script.content}></script>`;
+                                    }
+                                    /**
+                                     * case text
+                                     */
+                                default:
+                                    {
+                                        return oldScript + `<script>${script.content}</script>`;
+                                    }
+                            }
+                        }
+                    });
+                else return hook.add_action("RESPONSE_FOOT", {
+
                     callback: async function (oldScript) {
                         oldScript = oldScript || "";
                         switch (script.type) {
@@ -24,7 +44,7 @@ class View {
                                 }
                         }
                     }
-                });
+                })
             }
         }
     }

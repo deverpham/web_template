@@ -22,6 +22,7 @@
     "dotenv": "^5.0.1",
     "ejs": "^2.6.1",
     "eslint": "^5.7.0",
+    "eslint-plugin-react": "^7.11.1",
     "express": "^4.16.3",
     "express-react-views": "^0.10.5",
     "express-session": "^1.15.6",
@@ -58,6 +59,7 @@
     "react-dom": "^16.6.0",
     "sequelize": "^4.37.6",
     "sqlite3": "^4.0.0",
+    "uniqid": "^5.0.3",
     "usage": "^0.7.1"
   },
   "scripts": {
@@ -79,6 +81,7 @@
     "mocha": "^5.2.0",
     "moment": "^2.22.2",
     "react": "^16.6.0",
+    "react-bootstrap": "^0.32.4",
     "react-jsx": "^1.0.0",
     "shell-exec": "^1.0.2",
     "source-map": "^0.7.3"

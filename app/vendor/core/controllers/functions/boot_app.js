@@ -14,7 +14,6 @@ const {
 const {
     WebHandler
 } = require("../../providers");
-
 async function bootApp() {
     const pCheck = new Monitor();
     pCheck.start();
