@@ -5,6 +5,7 @@ const plugin = require("../plugin.controller");
 const resource = require("../resources.controller");
 const view = require("../view.controller");
 const routes = require("../routes.controller");
+const { Monitor } = require('../../providers')
 const {
     store
 } = require("../../api");
@@ -13,6 +14,8 @@ const {
 } = require("../../providers");
 
 async function bootApp() {
+    const pCheck = new Monitor(true);
+    pCheck.start();
     console.info("booting your app...");
     cl_store();
     console.info("loading database");
@@ -28,6 +31,9 @@ async function bootApp() {
     routes.load();
     errorHanding();
     await HANDLER.listen(); // eslint-disable-line no-undef
+
+    var result = await pCheck.analytic()
+    console.log(result);
 }
 
 function loadDB() {

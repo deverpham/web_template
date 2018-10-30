@@ -2,6 +2,8 @@ const Logger = require('./logger.provider');
 const helper = require('./helper.provider');
 const Hook = require('./hook.provider')
 const Model = require('./model.provider')
+const Monitor = require('./monitor.provider')
+const reactEngine = require('./react_engine.provider');
 const {
     WebHandler
 } = require('./handler.provider');
@@ -24,8 +26,10 @@ const helperAPI = require('./helper')
 const templateAPI = require('./template');
 */
 module.exports = {
+    Monitor,
     Logger,
     WebHandler,
+    reactEngine,
     helper,
     Hook,
     Router,

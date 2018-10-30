@@ -28,8 +28,6 @@ function getUsageNow() {
 class Monitor {
     constructor(healthCheck = false) {
         this.healthCheck = healthCheck
-
-
     }
     async _listenHealth() {
         const info = await getUsageNow();
@@ -61,6 +59,4 @@ class Monitor {
 
     }
 }
-module.exports = {
-    Monitor
-}
+module.exports = Monitor

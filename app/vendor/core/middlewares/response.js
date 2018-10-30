@@ -1,7 +1,10 @@
 const ejs = require('ejs');
 const path = require('path');
-
-const jsxRender = require('express-react-views').createEngine()
+const { reactEngine } = require('../providers')
+const { store } = require('../api')
+reactEngine.load({
+    only: store.config().get().theme.path
+});
 const {
     theme
 } = require('../controllers')
@@ -12,9 +15,9 @@ module.exports = function (req, res, next) {
                 const themeDir = theme.dir();
                 const fileRealPath = path.join(themeDir, filePath)
                 ejs.renderFile(fileRealPath, {
-                        ...payload,
-                        ...res.locals
-                    }, {
+                    ...payload,
+                    ...res.locals
+                }, {
                         async: true
                     })
                     .then(html => {
@@ -27,13 +30,14 @@ module.exports = function (req, res, next) {
             const themeDir = theme.dir();
             const fileRealPath = path.join(themeDir, filePath)
             return new Promise(resolve => {
-                jsxRender(fileRealPath, {
+                reactEngine.render(fileRealPath, {
                     ...HANDLER.ctrl,
                     ...payload,
                     ...res.locals
                 }, function (err, html) {
                     if (err) throw (err);
                     res.write(html);
+                    resolve();
                 })
             })
         }
