@@ -22,6 +22,6 @@ route.get('/',
         */
     })
     .set(async (req, res) => {
-        res.stream.react('admin/index.jsx')
+        res.stream.ejs('admin/login.ejs')
     }));
 module.exports = route

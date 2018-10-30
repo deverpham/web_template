@@ -34,16 +34,14 @@ module.exports = function (req, res, next) {
         react: function (filePath, payload = {}) {
             const themeDir = theme.dir();
             const fileRealPath = path.join(themeDir, filePath)
-            return new Promise(resolve => {
-                reactEngine.render(fileRealPath, {
+            return new Promise(async resolve => {
+                const result = await reactEngine.render(fileRealPath, {
                     ...HANDLER.ctrl,
                     ...payload,
                     ...res.locals
-                }, function (err, html) {
-                    if (err) throw (err);
-                    res.write(html);
-                    resolve();
                 })
+                res.write(result)
+                resolve()
             })
         }
     }

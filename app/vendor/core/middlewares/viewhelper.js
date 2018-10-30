@@ -3,7 +3,11 @@ const ejs = require('ejs');
 const glob = require('glob');
 const fs = require('fs');
 const path = require('path');
-module.exports = function (req, res, next) {
+const {
+    reactEngine
+} = require('../../providers')
+
+function ejsRender(req, res, next) {
     const helpers = glob.sync(controller.theme.helper().dir() + '/*.ejs');
     helpers.map(helper => {
         const name = path.basename(helper).replace('.ejs', '');
@@ -18,3 +22,18 @@ module.exports = function (req, res, next) {
     })
     next();
 }
+
+function react(req, res, next) {
+    const helpers = glob.sync(controller.theme.helper().dir() + '/*.jsx');
+    helpers.map(async helper => {
+        const name = path.basename(helper).replace('.jsx', '');
+        res.locals[name] = async function (data) {
+            const dataMapLocals = Object.assign(res.locals, data, {
+                ejs
+            })
+            return await reactEngine.render(helper, dataMapLocals)
+        }
+    })
+    next();
+}
+module.exports = react
