@@ -1,24 +1,42 @@
 const ejs = require('ejs');
 const path = require('path');
+
+const jsxRender = require('express-react-views').createEngine()
 const {
     theme
-} = require('../controllers');
+} = require('../controllers')
 module.exports = function (req, res, next) {
-    res.renderStream = function (filePath, payload = {}) {
-        return new Promise(resolve => {
+    res.renderStream = {
+        ejs: function (filePath, payload = {}) {
+            return new Promise(resolve => {
+                const themeDir = theme.dir();
+                const fileRealPath = path.join(themeDir, filePath)
+                ejs.renderFile(fileRealPath, {
+                        ...payload,
+                        ...res.locals
+                    }, {
+                        async: true
+                    })
+                    .then(html => {
+                        res.write(html)
+                        resolve();
+                    })
+            })
+        },
+        react: function (filePath, payload = {}) {
             const themeDir = theme.dir();
             const fileRealPath = path.join(themeDir, filePath)
-            ejs.renderFile(fileRealPath, {
+            return new Promise(resolve => {
+                jsxRender(fileRealPath, {
+                    ...HANDLER.ctrl,
                     ...payload,
                     ...res.locals
-                }, {
-                    async: true
+                }, function (err, html) {
+                    if (err) throw (err);
+                    res.write(html);
                 })
-                .then(html => {
-                    res.write(html)
-                    resolve();
-                })
-        })
+            })
+        }
     }
     res.success = function (payload) {
         return res.json({

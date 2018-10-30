@@ -53,7 +53,7 @@ class Theme {
     helper() {
         return {
             dir: () => {
-                return path.join(this.dir(), './helpers')
+                return path.join(this.dir(), './templates')
             }
         }
     }

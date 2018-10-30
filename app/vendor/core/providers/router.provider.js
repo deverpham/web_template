@@ -1,7 +1,7 @@
 const RouterExpress = require('express').Router
 const validate = require('express-validation');
 const joi = require('joi')
-class Router {
+class Route {
     constructor(handler, slash = "") {
         this._slash = slash;
         this.handler = handler;
@@ -13,9 +13,13 @@ class Router {
             initValidate: this.initValidate.bind(this),
             configValidate: this.configValidate.bind(this),
             enableGuard: this.enableGuard.bind(this),
-            virtual: this.virtual.bind(this)
+            virtual: this.virtual.bind(this),
+            render: this.render.bind(this)
         });
         return extendNative
+    }
+    render(req, res) {
+        res.end()
     }
     listen() {
         console.info(`listen Route: `, this._slash)
@@ -55,6 +59,57 @@ class Router {
         }
     }
 }
+class Render {
+    constructor() {
+        this.lifeCycle = async function (req, res) {
+
+            await this.Before(req, res);
+            await this.Header(req, res);
+            await this.Content(req, res);
+            await this.Footer(req, res);
+            await this.After(req, res);
+            res.end();
+        }
+        this.hooks = {
+            before: [],
+            after: []
+        }
+        this.Before = async (req, res) => {
+            await Promise.all(this.hooks.before.map(f => f(req, res)))
+        };
+        this.After = async (req, res) => {
+            await Promise.all(this.hooks.after.map(f => f(req, res)))
+        }
+        this.Header = () => {};
+        this.Footer = () => {};
+    }
+    apply(receiver, n, args) {
+        this.Content = receiver
+        return this.lifeCycle(...args);
+    }
+    set(receiver) {
+        return new Proxy(receiver, this);
+    }
+    before(before) {
+        this.hooks.before.push(before)
+        return this;
+    }
+    after(after) {
+        this.hooks.after.push(after)
+        return this;
+    }
+    clone() {
+        const newRender = new Render();
+        newRender.Header = this.Header;
+        newRender.Footer = this.Footer;
+        newRender.hooks = {
+            before: [],
+            after: []
+        }
+        return newRender;
+    }
+}
 module.exports = {
-    Router
+    Route,
+    Render
 };

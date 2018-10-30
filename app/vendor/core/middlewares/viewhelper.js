@@ -9,7 +9,9 @@ module.exports = function (req, res, next) {
         const name = path.basename(helper).replace('.ejs', '');
         const content = fs.readFileSync(helper).toString()
         res.locals[name] = function (data) {
-            const dataMapLocals = Object.assign(res.locals, data)
+            const dataMapLocals = Object.assign(res.locals, data, {
+                ejs
+            })
             return ejs.compile(content)(dataMapLocals)
         }
         controller.view.template.add(name, res.locals[name])

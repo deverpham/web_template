@@ -5,9 +5,7 @@ const Model = require('./model.provider')
 const {
     WebHandler
 } = require('./handler.provider');
-const {
-    Router
-} = require('./router.provider')
+const Router = require('./router.provider')
 /*
 const {
     RouterAPI,

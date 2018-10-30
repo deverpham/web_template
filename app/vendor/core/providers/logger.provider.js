@@ -7,6 +7,7 @@ pe.filter(function (traceLine, lineNumber) {
         global.cpLog = console.log
     }
     if (lineNumber == 1 && true &&
+        traceLine.shortenedAddr != null &&
         traceLine
         .shortenedAddr
         .indexOf(path.join(__filename)) == -1)
