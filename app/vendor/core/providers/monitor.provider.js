@@ -8,7 +8,9 @@ const usage = require('usage');
 function getUsageNow() {
     const pid = process.pid
     return new Promise((resolve, reject) => {
-        usage.lookup(pid, { keepHistory: true }, function (err, result) {
+        usage.lookup(pid, {
+            keepHistory: false
+        }, function (err, result) {
             if (err) {
                 console.log(err)
                 reject(err);
@@ -30,12 +32,16 @@ class Monitor {
         this.healthCheck = healthCheck
     }
     async _listenHealth() {
-        const info = await getUsageNow();
-        this.previousHealth = info
+        try {
+            const info = await getUsageNow();
+            this.previousHealth = info
+        } catch (err) {
+            console.error(err);
+        }
     }
-    async  start() {
+    async start() {
+        this.startPoint = now();
         if (this.healthCheck) {
-            this.start = now();
             await this._listenHealth();
         }
     }
@@ -44,7 +50,7 @@ class Monitor {
      * @return {object}
      */
     async analytic() {
-        const totalTime = now() - this.start;
+        const totalTime = now() - this.startPoint;
         const lastHealth = await getUsageNow();
         if (this.previousHealth) {
             return {

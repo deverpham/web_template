@@ -1,23 +1,28 @@
 const ejs = require('ejs');
 const path = require('path');
-const { reactEngine } = require('../providers')
-const { store } = require('../api')
-reactEngine.load({
-    only: store.config().get().theme.path
-});
+const {
+    store
+} = require('../api')
+
 const {
     theme
 } = require('../controllers')
+const {
+    reactEngine
+} = require('../providers')
+reactEngine.load({
+    only: store.config().get().theme.path
+});
 module.exports = function (req, res, next) {
-    res.renderStream = {
+    res.stream = {
         ejs: function (filePath, payload = {}) {
             return new Promise(resolve => {
                 const themeDir = theme.dir();
                 const fileRealPath = path.join(themeDir, filePath)
                 ejs.renderFile(fileRealPath, {
-                    ...payload,
-                    ...res.locals
-                }, {
+                        ...payload,
+                        ...res.locals
+                    }, {
                         async: true
                     })
                     .then(html => {
