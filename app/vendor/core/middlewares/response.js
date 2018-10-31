@@ -5,7 +5,8 @@ const {
 } = require('../api')
 
 const {
-    theme
+    theme,
+    view
 } = require('../controllers')
 const {
     reactEngine
@@ -35,12 +36,17 @@ module.exports = function (req, res, next) {
             const themeDir = theme.dir();
             const fileRealPath = path.join(themeDir, filePath)
             return new Promise(async resolve => {
-                const result = await reactEngine.render(fileRealPath, {
+                const [html, script] = await reactEngine.render(fileRealPath, {
                     ...HANDLER.ctrl,
                     ...payload,
                     ...res.locals
                 })
-                res.write(result)
+                view.script().add(res, {
+                    type: 'text',
+                    content: script
+                }, true);
+                res.write(html)
+
                 resolve()
             })
         }

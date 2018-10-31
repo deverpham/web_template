@@ -25,8 +25,9 @@ class ReactEngine {
 
     event_render(instance) {
         let script = '';
+        if (instance == undefined) return script;
 
-        function collectEvents(instance) {
+        function collectEvents(instance, query = '') {
             const {
                 props
             } = instance;
@@ -35,24 +36,58 @@ class ReactEngine {
                 id
             } = props;
             if (children != undefined) {
-                if (children.length == undefined) {
-                    return collectEvents(children)
+
+                if (id == undefined) {
+                    switch (typeof instance.type) {
+                        case 'function':
+                            {
+                                const a = new instance.type();
+                                const nodeName = a.constructor.name.toString().toLowerCase();
+                                if (nodeName)
+                                    query += ` ${nodeName}`;
+                                break;
+                                //console.log(instance.type.toString())
+                            }
+                        default:
+                            {
+                                query += ` ${instance.type}`;
+                                break;
+                            }
+                    }
+                    if ('className' in props) {
+                        query += `.${props.className}`
+                    }
+                } //id = uniqid.process('v');
+                if (children.type != undefined) {
+                    collectEvents(children, query)
                 } else {
                     if (typeof children != 'string') {
-                        children.map(child => collectEvents(child))
+                        children.map(child => collectEvents(child, query))
                     }
                 }
             }
-            if (id == undefined) id = uniqid.process('v');
             const propKeys = Object.keys(props);
-            const exists = ['onChange', 'onClick'].filter(event => propKeys.indexOf(event) != -1)
+            const exists = [
+                'onChange',
+                'onClick',
+                'onSubmit'
+            ].filter(event => propKeys.indexOf(event) != -1)
             exists.map(exist => {
                 const words = exist.split(/(?=[A-Z])/)
                 if (words.length > 0) {
                     const eventName = words[1];
+                    let selector = {}
+                    if (id == undefined) {
+                        selector = query.trim();
+                        id = uniqid.process('v')
+                    } else selector = '#' + id;
+                    let funcString = props[exist].toString()
+                    const match = funcString.match(/^(function)/g);
+                    if (match == null)
+                        funcString = 'function ' + funcString
                     script += `
-                    const ${id} = document.getElementById('${id}');
-                    ${id}.addEventListener('${eventName.toLowerCase()}', ${props[exist]})
+                    const ${id} = document.querySelector('${selector}');
+                    ${id}.addEventListener('${eventName.toLowerCase()}', ${funcString})
         `
                     //console.error(scriptString);
                 }
