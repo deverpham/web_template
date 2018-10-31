@@ -15,7 +15,7 @@ const {
     WebHandler
 } = require("../../providers");
 async function bootApp() {
-    const pCheck = new Monitor(true);
+    const pCheck = new Monitor(false);
     pCheck.start();
     console.info("booting your app...");
     cl_store();

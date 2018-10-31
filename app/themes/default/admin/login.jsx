@@ -1,5 +1,4 @@
 const React = require("react");
-import ReactLoading from 'react-loading';
 import {
   Button,
   Form,
@@ -7,8 +6,8 @@ import {
   FormControl,
   ControlLabel
 } from "react-bootstrap";
+import FormSubmit from "../templates/forms/submit";
 class LoginPage extends React.Component {
-
   onChange() {
     console.log("gg");
   }
@@ -16,36 +15,35 @@ class LoginPage extends React.Component {
     const $this = window;
     const username = $this.username.value;
     const password = $this.password.value;
-    console.log(username, password)
+    console.log(username, password);
     $($this.loadingbar).remove();
     return e.preventDefault();
   }
+  componentWillMount() {
+    this.items = [
+      {
+        class: "input",
+        label: "username"
+      },
+      {
+        class: "input",
+        label: "password",
+        props: {
+          type: "password"
+        }
+      },
+      {
+        class: "button",
+        label: "Submit",
+        props: {
+          color: "primary"
+        }
+      }
+    ];
+  }
   render() {
     return (
-      <Form onSubmit={this.onSubmit}>
-        <FormGroup>
-          <ReactLoading id='loadingbar' type={'balls'} color={'spinningBubbles'} />
-          <ControlLabel htmlFor="username">Username</ControlLabel>
-          <FormControl
-            type="text"
-            placeholder="Username"
-            id="username"
-            name="username"
-            onChange={this.onChange}
-          />
-          <ControlLabel for="username">password</ControlLabel>
-          <FormControl
-            type="password"
-            placeholder="password"
-            id="password"
-            name="password"
-            onChange={this.onChange}
-          />
-        </FormGroup>
-        <Button bsStyle="primary" type="submit">
-          Login
-        </Button>
-      </Form>
+      <FormSubmit method="post" action="/admin/login" items={this.items} />
     );
   }
 }
