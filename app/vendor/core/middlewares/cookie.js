@@ -4,7 +4,7 @@ var SequelizeStore = require('connect-session-sequelize')(session.Store);
 const cookieParser = require('cookie-parser');
 const {
     store
-} = require('../api')
+} = require('../share')
 const sessionStore = new SequelizeStore({
     db: DB
 })

@@ -3,7 +3,7 @@
  */
 const {
     store
-} = require('../../api');
+} = require('../../share');
 const {
     DB
 } = require('../../database/sequelize');

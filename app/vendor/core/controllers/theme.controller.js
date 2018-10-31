@@ -9,7 +9,7 @@ const {
 } = require('events');
 const {
     store
-} = require('../api')
+} = require('../share')
 class Theme {
     constructor() {
         this.controller = new EventEmitter();

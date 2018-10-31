@@ -126,22 +126,21 @@ class ReactEngine {
         return newObject;
     }
     render(file, option) {
-
         let moduleDetectRegEx = new RegExp(
             []
-            .concat(this.opts.only)
-            .map(viewPath => '^' + _escaperegexp(viewPath))
-            .join('|')
+                .concat(this.opts.only)
+                .map(viewPath => '^' + _escaperegexp(viewPath))
+                .join('|')
         );
         try {
             let component = require(file);
             component = component.default || component;
-            const Node = React.createFactory(component);
+            const Node = React.createElement(component, option);
             const instance = new component(option);
             const render = instance.render();
             //this.appendID(render);
             const scriptString = this.event_render(render);
-            const html = ReactDOMServer.renderToStaticMarkup(render);
+            const html = ReactDOMServer.renderToStaticMarkup(Node);
             return [html, scriptString]
         } catch (e) {
             throw (e);

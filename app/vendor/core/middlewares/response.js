@@ -1,8 +1,10 @@
+
 const ejs = require('ejs');
+
 const path = require('path');
 const {
     store
-} = require('../api')
+} = require('../share')
 
 const {
     theme,
@@ -16,14 +18,15 @@ reactEngine.load({
 });
 module.exports = function (req, res, next) {
     res.stream = {
+
         ejs: function (filePath, payload = {}) {
             return new Promise(resolve => {
                 const themeDir = theme.dir();
                 const fileRealPath = path.join(themeDir, filePath)
                 ejs.renderFile(fileRealPath, {
-                        ...payload,
-                        ...res.locals
-                    }, {
+                    ...payload,
+                    ...res.locals
+                }, {
                         async: true
                     })
                     .then(html => {
@@ -32,12 +35,12 @@ module.exports = function (req, res, next) {
                     })
             })
         },
+
         react: function (filePath, payload = {}) {
             const themeDir = theme.dir();
             const fileRealPath = path.join(themeDir, filePath)
             return new Promise(async resolve => {
                 const [html, script] = await reactEngine.render(fileRealPath, {
-                    ...HANDLER.ctrl,
                     ...payload,
                     ...res.locals
                 })

@@ -3,7 +3,7 @@ const {
     App
 } = require('./vendor/server');
 const app = new App(config);
-const [provider] = [app.provider()];
+const provider = app.provider();
 const logger = new provider.Logger();
 switch (config.name) {
     case 'dev':

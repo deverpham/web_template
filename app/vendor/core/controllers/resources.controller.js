@@ -1,6 +1,6 @@
 const {
     store
-} = require('../api')
+} = require('../share')
 const express = require('express');
 class Resources {
     load() {

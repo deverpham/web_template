@@ -1,6 +1,6 @@
 const {
     store
-} = require('../api');
+} = require('../share');
 const {
     parseFromFile
 } = require('../providers').helper.json()

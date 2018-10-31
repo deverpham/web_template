@@ -1,4 +1,5 @@
 const React = require("react");
+import ReactLoading from 'react-loading';
 import {
   Button,
   Form,
@@ -7,10 +8,7 @@ import {
   ControlLabel
 } from "react-bootstrap";
 class LoginPage extends React.Component {
-  constructor() {
-    super();
-    console.log(this);
-  }
+
   onChange() {
     console.log("gg");
   }
@@ -18,13 +16,16 @@ class LoginPage extends React.Component {
     const $this = window;
     const username = $this.username.value;
     const password = $this.password.value;
+    console.log(username, password)
+    $($this.loadingbar).remove();
     return e.preventDefault();
   }
   render() {
     return (
       <Form onSubmit={this.onSubmit}>
         <FormGroup>
-          <ControlLabel for="username">Username</ControlLabel>
+          <ReactLoading id='loadingbar' type={'balls'} color={'spinningBubbles'} />
+          <ControlLabel htmlFor="username">Username</ControlLabel>
           <FormControl
             type="text"
             placeholder="Username"

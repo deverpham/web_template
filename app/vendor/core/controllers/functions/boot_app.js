@@ -10,12 +10,12 @@ const {
 } = require('../../providers')
 const {
     store
-} = require("../../api");
+} = require("../../share");
 const {
     WebHandler
 } = require("../../providers");
 async function bootApp() {
-    const pCheck = new Monitor();
+    const pCheck = new Monitor(true);
     pCheck.start();
     console.info("booting your app...");
     cl_store();

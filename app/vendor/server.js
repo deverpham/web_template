@@ -1,4 +1,4 @@
-const API = require('./core/api')
+const Share = require('./core/share')
 const providers = require('./providers');
 class App {
     /**
@@ -6,13 +6,14 @@ class App {
      * @param {siteOpts} config 
      */
     constructor(config) {
-        API.store.config().set(config);
+        Share.store.config().set(config);
     }
     boot() {
         return this.controller().bootApp()
     }
     provider() {
-        return { ...
+        return {
+            ...
             providers
         };
     }

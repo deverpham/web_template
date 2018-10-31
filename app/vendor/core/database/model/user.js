@@ -4,7 +4,7 @@ const {
 } = require('../sequelize')
 const {
     store
-} = require('../../api')
+} = require('../../share')
 const {
     helper
 } = require('../../providers')
@@ -34,8 +34,8 @@ const User = DB.define('user', {
         defaultValue: 'member'
     }
 }, {
-    timestamps: false
-})
+        timestamps: false
+    })
 User.prototype.checkCredentials = function (isHash = false) {
     var {
         username,
