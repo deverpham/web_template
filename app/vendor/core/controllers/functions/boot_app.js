@@ -6,7 +6,8 @@ const resource = require("../resources.controller");
 const view = require("../view.controller");
 const routes = require("../routes.controller");
 const {
-    Monitor
+    Monitor,
+    Next
 } = require('../../providers')
 const {
     store
@@ -15,26 +16,30 @@ const {
     WebHandler
 } = require("../../providers");
 async function bootApp() {
-    const pCheck = new Monitor(false);
-    pCheck.start();
-    console.info("booting your app...");
-    cl_store();
-    console.info("loading database");
-    await loadDB();
-    console.info("db:completed");
-    createHandler();
-    console.info("hanlder:registered");
-    middleware.load();
-    resource.load();
-    plugin.load();
-    view.load();
-    theme.load();
-    routes.load();
-    errorHanding();
-    await HANDLER.listen(); // eslint-disable-line no-undef
-
-    var result = await pCheck.analytic()
-    console.log(result);
+    const next = new Next();
+    next.prepare()
+        .then(async () => {
+            const pCheck = new Monitor(false);
+            pCheck.start();
+            console.info("booting your app...");
+            cl_store();
+            console.info("loading database");
+            await loadDB();
+            console.info("db:completed");
+            createHandler();
+            console.info("hanlder:registered");
+            middleware.load();
+            resource.load();
+            plugin.load();
+            view.load();
+            theme.load();
+            routes.load();
+            next.fusion(HANDLER.ctrl);
+            errorHanding();
+            await HANDLER.listen(); // eslint-disable-line no-undef
+            var result = await pCheck.analytic()
+            console.log(result);
+        })
 }
 
 function loadDB() {

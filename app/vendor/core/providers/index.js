@@ -4,6 +4,7 @@ const Hook = require('./hook.provider')
 const Model = require('./model.provider')
 const Monitor = require('./monitor.provider')
 const reactEngine = require('./react_engine.provider');
+const Next = require('./next.provider')
 const {
     WebHandler
 } = require('./handler.provider');
@@ -32,6 +33,7 @@ module.exports = {
     reactEngine,
     helper,
     Hook,
+    Next,
     Router,
     Model
     /*

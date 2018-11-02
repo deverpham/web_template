@@ -8,20 +8,7 @@ const {
     theme,
     view
 } = require('../../controllers')
-route.get('/',
-    render
-    .clone()
-    .before(async function (req, res) {
-        /*
-        view.script().add(res, {
-            type: 'text',
-            content: `
-                alert('${req.baseUrl}')
-            `
-        })
-        */
-    })
-    .set(async (req, res) => {
-        res.stream.react('admin/login.jsx')
-    }));
+route.get('/', function (req, res, next) {
+    next();
+})
 module.exports = route

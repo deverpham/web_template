@@ -6,7 +6,7 @@ import {
   FormControl,
   ControlLabel
 } from "react-bootstrap";
-import FormSubmit from "../templates/forms/submit";
+const FormSubmit = require("../templates/forms/submit");
 class LoginPage extends React.Component {
   onChange() {
     console.log("gg");
@@ -43,7 +43,15 @@ class LoginPage extends React.Component {
   }
   render() {
     return (
-      <FormSubmit method="post" action="/admin/login" items={this.items} />
+      <FormSubmit
+        id="loginForm"
+        method="post"
+        action="/admin/login"
+        items={this.items}
+        onClick={function() {
+          console.log("gg");
+        }}
+      />
     );
   }
 }
